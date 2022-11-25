@@ -1,19 +1,23 @@
+package Item;
 import java.io.*;
 import java.util.*;
+
+import Player;
+import Character.HeroType;
 
 public class Weapons {
 //    	Has the attributes and values of the weapons and their buy, sell, attack methods.
     String name;
     int cost;
     int level;
-    int damage;
+    private int damage;
     public static ArrayList<Weapons> weaponsList;
 
     public Weapons(String name, int cost, int level, int damage) {
         this.name = name;
         this.cost = cost;
         this.level = level;
-        this.damage = damage;
+        this.setDamage(damage);
     }
 
     public static void populate() throws IOException {
@@ -47,7 +51,7 @@ public class Weapons {
         System.out.println("Headers : Name / cost / required level / damage reduction");
         for (int j = 0; j < weaponsList.size(); j++) {
             Weapons weapon = weaponsList.get(j);
-            System.out.println("[" + (j + 1) + "] " + weapon.name + "  " + weapon.cost + "  " + weapon.level + "  " + weapon.damage);
+            System.out.println("[" + (j + 1) + "] " + weapon.name + "  " + weapon.cost + "  " + weapon.level + "  " + weapon.getDamage());
         }
     }
 
@@ -57,7 +61,7 @@ public class Weapons {
         ArrayList<Weapons> heroWeapons = Player.heroes.get(heroSelect).weaponsInventory;
         for (int j = 0; j < heroWeapons.size(); j++) {
             Weapons weapon = heroWeapons.get(j);
-            System.out.println("[" + (j + 1) + "] " + weapon.name + "  " + weapon.cost + "  " + weapon.level + "  " + weapon.damage);
+            System.out.println("[" + (j + 1) + "] " + weapon.name + "  " + weapon.cost + "  " + weapon.level + "  " + weapon.getDamage());
         }
     }
 
@@ -137,6 +141,14 @@ public class Weapons {
 
         return true;
     }
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
 
 
 }

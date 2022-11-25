@@ -1,5 +1,9 @@
+package Item;
 import java.io.*;
 import java.util.*;
+
+import Player;
+import Character.HeroType;
 
 public class Potions {
 //    Has the attributes and values of the potions and their buy, sell, consume methods.

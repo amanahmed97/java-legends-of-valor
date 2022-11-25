@@ -1,5 +1,12 @@
+package Character;
 import java.io.*;
 import java.util.*;
+
+import Player;
+import Item.Armory;
+import Item.Potions;
+import Item.Spells;
+import Item.Weapons;
 
 public class HeroType {
 //    	Has the implementation and attributes of the heroes from parsing text files to creation and methods for hero's actions.
@@ -206,7 +213,7 @@ public class HeroType {
         if ( randomDodge > dodgeChance ){
             // todo defense
             if (equipWeapon!=null){
-                heroAttack = (int) ( (strength+equipWeapon.damage)*0.05 - monster.defense*0.05);
+                heroAttack = (int) ( (strength+equipWeapon.getDamage())*0.05 - monster.defense*0.05);
             }else{
                 heroAttack = (int) ( (strength)*0.05 - monster.defense*0.05);
             }

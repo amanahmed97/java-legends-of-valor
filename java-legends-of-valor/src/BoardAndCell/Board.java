@@ -1,3 +1,4 @@
+package BoardAndCell;
 import java.util.Random;
 
 public class Board {

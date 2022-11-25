@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.Scanner;
 
+import BoardAndCell.Board;
+
 public class RunGameMain {
 // Has the initial Game Menu with method to run menu options
     public static void runGameMenu() throws IOException {

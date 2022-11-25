@@ -1,6 +1,11 @@
 import java.io.*;
 import java.util.*;
 
+import Item.Armory;
+import Item.Potions;
+import Item.Spells;
+import Item.Weapons;
+
 public class Market {
 //    Contains the implementation of the marketplace where heroes can buy and sell inventory.
     public static void enterMarket(){

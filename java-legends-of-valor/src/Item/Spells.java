@@ -1,5 +1,10 @@
+package Item;
 import java.io.*;
 import java.util.*;
+
+import Player;
+import Character.HeroType;
+import Character.Monster;
 
 public class Spells {
 //    Has the attributes and values of the spells and their buy, sell, attack methods.

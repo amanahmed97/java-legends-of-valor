@@ -1,4 +1,7 @@
 import java.util.*;
+
+import Character.HeroType;
+
 import java.io.*;
 
 public class Info {

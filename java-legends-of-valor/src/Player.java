@@ -1,6 +1,12 @@
 import java.io.IOException;
 import java.util.*;
 
+import Character.HeroType;
+import Item.Armory;
+import Item.Potions;
+import Item.Spells;
+import Item.Weapons;
+
 class Player {
 //    Contains the Player heroes and attributes, methods related to Player heroes.
     String name;

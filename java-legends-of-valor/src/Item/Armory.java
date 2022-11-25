@@ -1,5 +1,9 @@
+package Item;
 import java.io.*;
 import java.util.*;
+
+import Player;
+import Character.HeroType;
 
 public class Armory {
 //    Has the attributes and values of the armors and their buy, sell, equip methods.

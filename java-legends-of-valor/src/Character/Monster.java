@@ -1,5 +1,8 @@
+package Character;
 import java.io.*;
 import java.util.*;
+
+import Player;
 
 public class Monster {
 //    Has the implementation and attributes of the monsters from parsing text files to creation and methods for monster's actions.
