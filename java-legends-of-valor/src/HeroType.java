@@ -12,6 +12,9 @@ public class HeroType {
     int agility;
     int gold;
     int experience;
+    int xPosition;
+    int yPosition;
+    int lane;
 
     ArrayList<Weapons> weaponsInventory;
     ArrayList<Armory> armoryInventory;
@@ -37,6 +40,9 @@ public class HeroType {
         this.potionsInventory = new ArrayList<Potions>();
         this.equipWeapon = null;
         this.equipArmor = null;
+        int xPosition = 0;
+        int yPosition = 0;
+        this.lane=0;
     }
 
     public static void populate() throws IOException {
@@ -44,6 +50,17 @@ public class HeroType {
         populateWarriors();
         populatePaladins();
         populateSorcerers();
+    }
+
+    public boolean setPosition(int xPosition, int yPosition){
+        // Reset old position
+        RunGame.board.setBoard(this.xPosition, this.yPosition, '-');
+        // New position
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
+
+        return true;
     }
 
     public static void populateWarriors() throws IOException {
@@ -219,6 +236,7 @@ public class HeroType {
             // Check if monster is finished
             if(monster.HP <= 0){
                 System.out.println("\nMonster "+monster.name+" is finished.");
+                RunGame.board.setBoard(monster.xPosition, monster.yPosition, '-');
                 Monster.spawnMonsters.remove(monster);
             }
 

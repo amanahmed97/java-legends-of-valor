@@ -11,7 +11,7 @@ public class Battle {
         System.out.println("\n======\n"+"BATTLE"+"\n======");
         // todo condition check
         Scanner ip = new Scanner(System.in);
-        Monster.spawnMonsters();
+//        Monster.spawnMonsters();
 
         while(heroCondition() && monsterCondition()){
             System.out.println("\n\nROUND "+battleRound+"\n========"+"\nSTATS\n=====");

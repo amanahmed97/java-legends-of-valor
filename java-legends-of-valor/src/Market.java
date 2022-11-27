@@ -5,10 +5,10 @@ public class Market {
 //    Contains the implementation of the marketplace where heroes can buy and sell inventory.
     public static void enterMarket(){
         // check if player in on Market tile
-        if(RunGame.board.getBoardSymbol(RunGame.player.xPosition,RunGame.player.yPosition) != 'M'){
-            System.out.println("Cannot access market outside Market tile on board.");
-            return;
-        }
+//        if(RunGame.board.getBoardSymbol(RunGame.player.xPosition,RunGame.player.yPosition) != 'M'){
+//            System.out.println("Cannot access market outside Market tile on board.");
+//            return;
+//        }
 
         System.out.println("\n=====================\n"+"WELCOME TO THE MARKET\n"+"=====================\n");
 

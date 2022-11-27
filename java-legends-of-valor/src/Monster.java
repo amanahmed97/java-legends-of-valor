@@ -9,6 +9,9 @@ public class Monster {
     int damage;
     int defense;
     int dodge;
+    int xPosition;
+    int yPosition;
+    int lane;
 
     public static ArrayList<Monster> monsterList;
     public static ArrayList<Monster> spawnMonsters;
@@ -20,6 +23,9 @@ public class Monster {
         this.damage = damage;
         this.defense = defense;
         this.dodge = dodge;
+        int xPosition = 0;
+        int yPosition = 0;
+        this.lane = 0;
 
     }
 
@@ -122,8 +128,16 @@ public class Monster {
             if ( !selected.contains(randomSelector) ) {
                 spawnMonsters.add(monsterList.get(randomSelector));
                 selected.add(randomSelector);
-                spawnMonsters.get(i).level = Player.heroes.get(i).level;
-                spawnMonsters.get(i).HP = spawnMonsters.get(i).level*100;
+                Monster monster = spawnMonsters.get(i);
+                monster.level = Player.heroes.get(i).level;
+                monster.HP = monster.level*100;
+                // Set starting position for the monsters
+                monster.xPosition = Board.dimension-1;
+                monster.yPosition = i * 3;
+                monster.lane = spawnMonsters.size()-1;
+                RunGame.board.setBoard(monster.xPosition, monster.yPosition, 'M');
+            } else{
+                i--;
             }
         }
 
@@ -205,5 +219,15 @@ public class Monster {
         }
     }
 
+    public boolean moveNexus(){
+        // Reset old position
+        RunGame.board.setBoard(this.xPosition, this.yPosition, '-');
+        // New position
+        if(xPosition>0)
+            xPosition--;
+        RunGame.board.setBoard(this.xPosition, this.yPosition, 'M');
+
+        return true;
+    }
 
 }

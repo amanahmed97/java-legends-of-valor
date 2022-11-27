@@ -7,15 +7,16 @@ class Player {
     int team = 0;
     int score = 0;
     String playerMarker;
-    int xPosition = 0;
-    int yPosition = 0;
+//    int xPosition = 0;
+//    int yPosition = 0;
     public static ArrayList<HeroType> heroes;
+    public static ArrayList<HeroType> monsters;
 
     public Player(String name, int team) {
         this.name = name;
         this.team = team;
-        this.xPosition = 0;
-        this.yPosition = 0;
+//        this.xPosition = 0;
+//        this.yPosition = 0;
 //        RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
         heroes = new ArrayList<HeroType>();
     }
@@ -24,8 +25,8 @@ class Player {
         this.name = name;
         this.team = team;
         this.playerMarker = playerMarker;
-        this.xPosition = 0;
-        this.yPosition = 0;
+//        this.xPosition = 0;
+//        this.yPosition = 0;
 //        RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
         heroes = new ArrayList<HeroType>();
     }
@@ -39,16 +40,16 @@ class Player {
         return score;
     }
 
-    public boolean setPosition(int xPosition, int yPosition){
-        // Reset old position
-//        RunGame.board.setBoard(this.xPosition, this.yPosition, '-');
-        // New position
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
-//        RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
-
-        return true;
-    }
+//    public boolean setPosition(int xPosition, int yPosition){
+//        // Reset old position
+////        RunGame.board.setBoard(this.xPosition, this.yPosition, '-');
+//        // New position
+////        this.xPosition = xPosition;
+////        this.yPosition = yPosition;
+////        RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
+//
+//        return true;
+//    }
 
     public static int getNumberHeroes() {
         // Default set to 1 player Hero
@@ -95,6 +96,16 @@ class Player {
                 heroSet(numberHeroes);
             }
         }
+
+        // Set starting position for the heroes
+        for (int i=0; i<heroes.size();i++) {
+            HeroType hero = heroes.get(i);
+            hero.xPosition = 0;
+            hero.yPosition = i * 3;
+            RunGame.board.setBoard(hero.xPosition, hero.yPosition, 'H');
+            hero.lane = i;
+        }
+
         printHeroes();
     }
 

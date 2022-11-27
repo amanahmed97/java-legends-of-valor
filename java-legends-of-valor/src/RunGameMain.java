@@ -14,9 +14,6 @@ public class RunGameMain {
         System.out.println("\n=======================================\nLEGENDS - HEROES AND MONSTERS");
 
         printGameRules();
-        Board board;
-        board = new Board(8);
-        board.printBoard();
 
         // Game Menu
         while (true) {
@@ -34,7 +31,7 @@ public class RunGameMain {
 
             switch (option) {
                 case 1:
-//                    RunGame.runGame();
+                    RunGame.runGame();
                     break;
                 case 2:
                     System.out.println("\n=======================================\n");
