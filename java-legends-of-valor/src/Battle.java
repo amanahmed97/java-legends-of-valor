@@ -6,25 +6,25 @@ public class Battle {
     public static int battleRound=0;
     public static int attackTurn=1;
 
-    public static void enterBattle(){
+    public static void enterBattle(int heroSelect, int monsterSelect){
         battleRound=1;
         System.out.println("\n======\n"+"BATTLE"+"\n======");
         // todo condition check
         Scanner ip = new Scanner(System.in);
 //        Monster.spawnMonsters();
 
-        while(heroCondition() && monsterCondition()){
+        while(heroCondition(heroSelect) && monsterCondition(monsterSelect)){
             System.out.println("\n\nROUND "+battleRound+"\n========"+"\nSTATS\n=====");
             Player.printHeroes();
             Monster.printSpawnMonsters();
 
             switch(attackTurn){
                 case 1:
-                    heroTurn();
+                    heroTurn(heroSelect, monsterSelect);
                     attackTurn=2;
                     break;
                 case 2:
-                    Monster.monsterTurn();
+                    Monster.monsterTurn(heroSelect, monsterSelect);
                     attackTurn=1;
                     battleRound++;
                     healHeroes();
@@ -33,30 +33,24 @@ public class Battle {
 
         }
 
-        if(heroCondition()){
-            System.out.println("\nHEROES WIN!!!\n=============");
+        if(heroCondition(heroSelect)){
+            System.out.println("\nHERO WINS!!!\n=============");
             Player.levelUpHeroes();
         }else{
-            System.out.println("\nGAME OVER!!!\nMonsters defeated you!");
+            System.out.println("\nHERO DEFEATED!!!\nMonster defeated you!");
             System.exit(0);
         }
     }
 
-    public static boolean heroTurn(){
+    public static boolean heroTurn(int heroSelect, int monsterSelect){
         System.out.println("\nHERO TURN"+"\n=========");
 
-        for (int i=0; i < RunGame.numberHeroes; i++){
-
-            if(Player.heroes.get(i).HP <= 0)
-                continue;
-
-            heroOptions(i);
-        }
+        heroOptions(heroSelect, monsterSelect);
 
         return true;
     }
 
-    public static boolean heroOptions(int heroSelect){
+    public static boolean heroOptions(int heroSelect, int monsterSelect){
         int heroOption=0;
         HeroType hero = Player.heroes.get(heroSelect);
         Scanner ip = new Scanner(System.in);
@@ -77,10 +71,10 @@ public class Battle {
         switch(heroOption){
             case 1:
                 // Attack
-                hero.attack();
+                hero.attack(monsterSelect);
                 break;
             case 2:
-                hero.castSpell(heroSelect);
+                hero.castSpell(heroSelect, monsterSelect);
                 break;
             case 3:
                 hero.usePotion(heroSelect);
@@ -105,19 +99,26 @@ public class Battle {
         return true;
     }
 
-    public static boolean heroCondition(){
-        for(HeroType hero: Player.heroes){
-            if(hero.HP > 0)
-                return true;
+    public static boolean heroCondition(int heroSelect){
+        HeroType hero = Player.heroes.get(heroSelect);
+        if(hero.HP > 0)
+            return true;
+        else{
+            RunGame.board.setBoard(hero.xPosition, hero.yPosition, '-');
         }
+
         return false;
     }
 
-    public static boolean monsterCondition(){
-        if(Monster.spawnMonsters.size() > 0)
-            return true;
+    public static boolean monsterCondition(int monsterSelect){
+        Monster monster = Monster.spawnMonsters.get(monsterSelect);
 
-        return false;
+        if(monster.HP <= 0){
+            Monster.spawnMonsters.remove(monster);
+            return false;
+        }
+
+        return true;
     }
 
     public static void healHeroes(){

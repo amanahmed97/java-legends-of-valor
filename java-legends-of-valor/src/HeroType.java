@@ -206,10 +206,10 @@ public class HeroType {
         return true;
     }
 
-    public boolean attack(){
+    public boolean attack(int monsterSelect){
         Random random = new Random();
         // Select which monster to attack
-        int monsterSelect = Monster.selectMonster();
+//        int monsterSelect = Monster.selectMonster();
         if (monsterSelect<0)
             return false;
 
@@ -237,7 +237,7 @@ public class HeroType {
             if(monster.HP <= 0){
                 System.out.println("\nMonster "+monster.name+" is finished.");
                 RunGame.board.setBoard(monster.xPosition, monster.yPosition, '-');
-                Monster.spawnMonsters.remove(monster);
+//                Monster.spawnMonsters.remove(monster);  removing in battle class
             }
 
         }else{
@@ -256,10 +256,10 @@ public class HeroType {
         return Potions.selectPotion(heroSelect);
     }
 
-    public boolean castSpell(int heroSelect){
+    public boolean castSpell(int heroSelect, int monsterSelect){
         Random random = new Random();
         // Select which monster to attack
-        int monsterSelect = Monster.selectMonster();
+//        int monsterSelect = Monster.selectMonster();
         if (monsterSelect<0)
             return false;
 

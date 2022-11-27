@@ -161,18 +161,11 @@ public class Monster {
         }
     }
 
-    public static boolean monsterTurn(){
+    public static boolean monsterTurn(int heroSelect, int monsterSelect){
         Random random = new Random();
+        Monster monster = spawnMonsters.get(monsterSelect);
 
-        for(int i=0; i<spawnMonsters.size(); i++){
-            int randomSelector = random.nextInt(Player.heroes.size());
-
-            if(Player.heroes.get(randomSelector).HP <= 0) {
-                i--;
-                continue;
-            }
-
-            HeroType hero = Player.heroes.get(randomSelector);
+            HeroType hero = Player.heroes.get(heroSelect);
             // Check Hero agility to dodge
             double dodgeChance = hero.agility * 0.002;
             int randomDodge = random.nextInt(hero.agility);
@@ -181,18 +174,17 @@ public class Monster {
             if ( randomDodge > dodgeChance ){
                 // todo armor
                 if(hero.equipArmor != null)
-                    attackDamage = (spawnMonsters.get(i).damage*0.02*spawnMonsters.get(i).level - hero.equipArmor.damage*0.05*hero.level);
+                    attackDamage = (monster.damage*0.02*monster.level - hero.equipArmor.damage*0.05*hero.level);
                 else
-                    attackDamage = (spawnMonsters.get(i).damage*0.02*spawnMonsters.get(i).level);
+                    attackDamage = (monster.damage*0.02*monster.level);
 
                 hero.HP -= attackDamage;
-                System.out.println("\nMonster "+spawnMonsters.get(i).name+" attacks Hero "+hero.name
+                System.out.println("\nMonster "+monster.name+" attacks Hero "+hero.name
                         +" for damage "+attackDamage);
             }else{
-                System.out.println("\nHero "+hero.name+" dodged Monster "+spawnMonsters.get(i).name+" attack");
+                System.out.println("\nHero "+hero.name+" dodged Monster "+monster.name+" attack");
             }
 
-        }
 
         return true;
     }

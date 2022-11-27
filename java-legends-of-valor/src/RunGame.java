@@ -16,8 +16,8 @@ public class RunGame {
         System.out.println("Starting game");
         setupGame();
 
-//        while(heroCondition() && monsterCondition()){
-        while(true){ // todo remove
+
+        while( !(heroWin() || monsterWin()) ){
 //            Player.printHeroes();
 
             switch(playerTurn){
@@ -72,17 +72,27 @@ public class RunGame {
         Monster.spawnMonsters();
     }
 
-    public static boolean generateBattle(){
+    public static boolean generateBattle(int heroSelect){
 //        if(board.getBoardSymbol(player.xPosition, player.yPosition) == 'M')
 //            return false;
-        // Roll the dice to check for battle
-        Random random = new Random();
-        int battleChance = random.nextInt(6)+1;
+        HeroType hero = Player.heroes.get(heroSelect);
+        int monsterSelect=-1;
 
-        if (battleChance==7) // todo change
-            Battle.enterBattle();
+        // Check if monster is in range for attack
+        for(int i=0;i<Monster.spawnMonsters.size();i++){
+            Monster monster = Monster.spawnMonsters.get(i);
+            if( (monster.xPosition==hero.xPosition-1 || monster.xPosition==hero.xPosition+1) && (monster.lane == hero.lane) ){
+                monsterSelect=i;
+            }
+        }
 
-        return true;
+        // Enter into battle if in range
+        if (monsterSelect != -1) {
+            Battle.enterBattle(heroSelect, monsterSelect);
+            return true;
+        }
+
+        return false;
     }
 
     public static boolean heroTurn(){
@@ -145,28 +155,28 @@ public class RunGame {
                     newXPosition = hero.xPosition - 1;
                     if (Board.validPosition(newXPosition, hero.yPosition)) {
                         hero.setPosition(newXPosition, hero.yPosition);
-                        generateBattle();
+                        generateBattle(heroSelect);
                     }
                     break;
                 case 'a':
                     newYPosition = hero.yPosition - 1;
                     if (Board.validPosition(hero.xPosition, newYPosition)) {
                         hero.setPosition(hero.xPosition, newYPosition);
-                        generateBattle();
+                        generateBattle(heroSelect);
                     }
                     break;
                 case 's':
                     newXPosition = hero.xPosition + 1;
                     if (Board.validPosition(newXPosition, hero.yPosition)) {
                         hero.setPosition(newXPosition, hero.yPosition);
-                        generateBattle();
+                        generateBattle(heroSelect);
                     }
                     break;
                 case 'd':
                     newYPosition = hero.yPosition + 1;
                     if (Board.validPosition(hero.xPosition, newYPosition)) {
                         hero.setPosition(hero.xPosition, newYPosition);
-                        generateBattle();
+                        generateBattle(heroSelect);
                     }
                     break;
                 case 'i':
@@ -192,6 +202,32 @@ public class RunGame {
         // Move the monster toward the Nexus
         System.out.println("MONSTER PLAYS : "+monster.name+"\n=============");
         monster.moveNexus();
+    }
+
+    public static boolean heroWin(){
+        for(HeroType hero: Player.heroes){
+            if(hero.HP>0){
+                if(hero.xPosition == Board.dimension-1){
+                    System.out.println("NEXUS REACHED!!!\nHEROES WIN!!!!!"+"\nGAME WON!!!"+"\nThank you! See you again!");
+                    System.exit(0);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean monsterWin(){
+        for(Monster monster: Monster.spawnMonsters){
+
+            if(monster.xPosition == 0){
+                System.out.println("NEXUS REACHED!!!\nMONSTERS WIN!!"+"\nGAME OVER!!!"+"\nThank you! See you again!");
+                System.exit(0);
+                return true;
+            }
+
+        }
+        return false;
     }
 
 }

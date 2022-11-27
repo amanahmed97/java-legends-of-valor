@@ -92,7 +92,7 @@ public class Board {
     }
 
     public static boolean validPosition(int newXPosition, int newYPosition){
-        if( newXPosition<0 || newYPosition<0 || newXPosition>dimension || newYPosition>dimension) {
+        if( newXPosition<0 || newYPosition<0 || newXPosition>dimension-1 || newYPosition>dimension-1) {
             System.out.println("Invalid move.");
             return false;
         }
