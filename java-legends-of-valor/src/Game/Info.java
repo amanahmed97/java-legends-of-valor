@@ -1,6 +1,8 @@
+package Game;
 import java.util.*;
 
-import Character.HeroType;
+import Character.Hero;
+import Character.Player;
 
 import java.io.*;
 
@@ -16,10 +18,10 @@ public class Info {
 
     public static boolean heroInfoOptions(int heroSelect){
         int heroOption=0;
-        HeroType hero = Player.heroes.get(heroSelect);
+        Hero hero = Player.heroes.get(heroSelect);
         Scanner ip = new Scanner(System.in);
 
-        System.out.println("HERO : "+hero.name+"  HP : "+hero.HP);
+        System.out.println("HERO : "+hero.getName()+"  HP : "+hero.getHP());
 
         System.out.println("HERO SELECT:\n"+"[1] Equip Weapon\n"+"[2] Equip Armor\n"+"[3] Use Potion\n"+"[4] Return");
 

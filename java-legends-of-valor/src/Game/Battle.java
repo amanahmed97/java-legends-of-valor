@@ -1,8 +1,11 @@
+package Game;
 import java.io.*;
 import java.util.*;
 
-import Character.HeroType;
+import Character.Hero;
 import Character.Monster;
+import Character.Player;
+import Factory.FactoryMonster;
 
 public class Battle {
 //    	Contains the implementation of the battle rounds between heroes and monsters.
@@ -14,12 +17,12 @@ public class Battle {
         System.out.println("\n======\n"+"BATTLE"+"\n======");
         // todo condition check
         Scanner ip = new Scanner(System.in);
-        Monster.spawnMonsters();
+        FactoryMonster.spawnMonsters();
 
         while(heroCondition() && monsterCondition()){
             System.out.println("\n\nROUND "+battleRound+"\n========"+"\nSTATS\n=====");
             Player.printHeroes();
-            Monster.printSpawnMonsters();
+            FactoryMonster.printSpawnMonsters();
 
             switch(attackTurn){
                 case 1:
@@ -50,7 +53,7 @@ public class Battle {
 
         for (int i=0; i < RunGame.numberHeroes; i++){
 
-            if(Player.heroes.get(i).HP <= 0)
+            if(Player.heroes.get(i).getHP() <= 0)
                 continue;
 
             heroOptions(i);
@@ -61,10 +64,10 @@ public class Battle {
 
     public static boolean heroOptions(int heroSelect){
         int heroOption=0;
-        HeroType hero = Player.heroes.get(heroSelect);
+        Hero hero = Player.heroes.get(heroSelect);
         Scanner ip = new Scanner(System.in);
 
-        System.out.println("HERO : "+hero.name+"  HP : "+hero.HP);
+        System.out.println("HERO : "+hero.getName()+"  HP : "+hero.getHP());
 
         System.out.println("HERO SELECT:\n"+"[1] Attack\n"+"[2] Cast spell\n"+"[3] Use potion\n"
                 +"[4] Equip Weapon\n"+"[5] Equip Armor\n"+"[6] Exit");
@@ -109,28 +112,28 @@ public class Battle {
     }
 
     public static boolean heroCondition(){
-        for(HeroType hero: Player.heroes){
-            if(hero.HP > 0)
+        for(Hero hero: Player.heroes){
+            if(hero.getHP() > 0)
                 return true;
         }
         return false;
     }
 
     public static boolean monsterCondition(){
-        if(Monster.spawnMonsters.size() > 0)
+        if(FactoryMonster.spawnMonsters.size() > 0)
             return true;
 
         return false;
     }
 
     public static void healHeroes(){
-        for(HeroType hero: Player.heroes){
+        for(Hero hero: Player.heroes){
 
-            if(hero.HP > 0){
-                hero.HP = (int) (hero.HP*1.1);
+            if(hero.getHP() > 0){
+                hero.setHP((int) (hero.getHP()*1.1));
             }
-            if(hero.MP > 0){
-                hero.MP = (int) (hero.MP*1.1);
+            if(hero.getMP() > 0){
+                hero.setMP((int) (hero.getMP()*1.1));
             }
 
         }

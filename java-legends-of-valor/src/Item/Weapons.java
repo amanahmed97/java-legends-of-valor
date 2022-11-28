@@ -2,12 +2,12 @@ package Item;
 import java.io.*;
 import java.util.*;
 
-import Player;
-import Character.HeroType;
+import Character.Hero;
+import Character.Player;
 
 public class Weapons {
 //    	Has the attributes and values of the weapons and their buy, sell, attack methods.
-    String name;
+    public String name;
     int cost;
     int level;
     private int damage;
@@ -58,7 +58,7 @@ public class Weapons {
     public static void printHeroWeapons(int heroSelect) {
         System.out.println("\nHERO OWNED WEAPONS\n"+"==================");
         System.out.println("Headers : Name / cost / required level / damage reduction");
-        ArrayList<Weapons> heroWeapons = Player.heroes.get(heroSelect).weaponsInventory;
+        ArrayList<Weapons> heroWeapons = Player.heroes.get(heroSelect).getWeaponsInventory();
         for (int j = 0; j < heroWeapons.size(); j++) {
             Weapons weapon = heroWeapons.get(j);
             System.out.println("[" + (j + 1) + "] " + weapon.name + "  " + weapon.cost + "  " + weapon.level + "  " + weapon.getDamage());
@@ -66,8 +66,8 @@ public class Weapons {
     }
 
     public static boolean buyWeapons(int heroSelect){
-        HeroType hero = Player.heroes.get(heroSelect);
-        System.out.println("Hero's Gold : "+hero.gold);
+        Hero hero = Player.heroes.get(heroSelect);
+        System.out.println("Hero's Gold : "+hero.getGold());
         printHeroWeapons(heroSelect);
         printWeaponsList();
 
@@ -88,16 +88,16 @@ public class Weapons {
             return false;
         }
 
-        if ( hero.gold < weaponsList.get(weaponSelect).cost ){
+        if ( hero.getGold() < weaponsList.get(weaponSelect).cost ){
             System.out.println("Not enough gold.");
             return false;
         }
 
-        if ( !hero.weaponsInventory.contains(weaponsList.get(weaponSelect)) ) {
-            hero.weaponsInventory.add(weaponsList.get(weaponSelect));
-            hero.gold -= weaponsList.get(weaponSelect).cost;
+        if ( !hero.getWeaponsInventory().contains(weaponsList.get(weaponSelect)) ) {
+            hero.getWeaponsInventory().add(weaponsList.get(weaponSelect));
+            hero.setGold(hero.getGold() - weaponsList.get(weaponSelect).cost);
             System.out.println("Weapon bought : "+weaponsList.get(weaponSelect).name);
-            System.out.println("Hero's Current Gold : "+hero.gold);
+            System.out.println("Hero's Current Gold : "+hero.getGold());
             return true;
         }
         else
@@ -107,10 +107,10 @@ public class Weapons {
     }
 
     public static boolean sellWeapons(int heroSelect){
-        HeroType hero = Player.heroes.get(heroSelect);
-        System.out.println("Hero's Gold : "+hero.gold);
+        Hero hero = Player.heroes.get(heroSelect);
+        System.out.println("Hero's Gold : "+hero.getGold());
         System.out.println("You will get half the displayed cost of the weapons in your inventory, if you sell.");
-        if(hero.weaponsInventory.size()==0){
+        if(hero.getWeaponsInventory().size()==0){
             System.out.println("No weapons in inventory.");
             return false;
         }
@@ -124,7 +124,7 @@ public class Weapons {
             System.out.print("Enter selection : ");
             weaponSelect = ip.nextInt();
 
-            while(weaponSelect<1 || weaponSelect>hero.weaponsInventory.size()){
+            while(weaponSelect<1 || weaponSelect>hero.getWeaponsInventory().size()){
                 System.out.println("Input valid Weapon number : ");
                 weaponSelect = ip.nextInt();
             }
@@ -134,10 +134,10 @@ public class Weapons {
             return false;
         }
 
-        hero.gold += hero.weaponsInventory.get(weaponSelect).cost / 2;
-        System.out.println("Weapon sold : "+hero.weaponsInventory.get(weaponSelect).name);
-        hero.weaponsInventory.remove(hero.weaponsInventory.get(weaponSelect));
-        System.out.println("Hero's Current Gold : "+hero.gold);
+        hero.setGold(hero.getGold() + hero.getWeaponsInventory().get(weaponSelect).cost / 2);
+        System.out.println("Weapon sold : "+hero.getWeaponsInventory().get(weaponSelect).name);
+        hero.getWeaponsInventory().remove(hero.getWeaponsInventory().get(weaponSelect));
+        System.out.println("Hero's Current Gold : "+hero.getGold());
 
         return true;
     }

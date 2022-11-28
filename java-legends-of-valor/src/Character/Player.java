@@ -1,13 +1,14 @@
+package Character;
 import java.io.IOException;
 import java.util.*;
 
-import Character.HeroType;
+import Factory.FactoryHero;
 import Item.Armory;
 import Item.Potions;
 import Item.Spells;
 import Item.Weapons;
 
-class Player {
+public class Player {
 //    Contains the Player heroes and attributes, methods related to Player heroes.
     String name;
     int team = 0;
@@ -15,7 +16,7 @@ class Player {
     String playerMarker;
     int xPosition = 0;
     int yPosition = 0;
-    public static ArrayList<HeroType> heroes;
+    public static ArrayList<Hero> heroes;
 
     public Player(String name, int team) {
         this.name = name;
@@ -23,7 +24,7 @@ class Player {
         this.xPosition = 0;
         this.yPosition = 0;
 //        RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
-        heroes = new ArrayList<HeroType>();
+        heroes = new ArrayList<Hero>();
     }
 
     public Player(String name, int team, String playerMarker) {
@@ -33,7 +34,7 @@ class Player {
         this.xPosition = 0;
         this.yPosition = 0;
 //        RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
-        heroes = new ArrayList<HeroType>();
+        heroes = new ArrayList<Hero>();
     }
 
     public int scoreUpdate(int s) {
@@ -77,7 +78,7 @@ class Player {
     }
 
     public static void heroSet(int numberHeroes) throws IOException {
-        HeroType.populate();
+        FactoryHero.populateHeroes();
 
         Scanner ip = new Scanner(System.in);
         int heroSelect=0;
@@ -85,16 +86,16 @@ class Player {
         for (int i = 0; i < numberHeroes; i++) {
             // Player Information input
             System.out.println("Choose Hero " + (i + 1) + " :");
-            HeroType.printHeroList();
+            FactoryHero.printHeroList();
             System.out.print("Enter Hero Number : ");
             try {
                 heroSelect = ip.nextInt();
 
-                while(heroSelect<1 || heroSelect>HeroType.heroList.size()){
+                while(heroSelect<1 || heroSelect>FactoryHero.heroList.size()){
                     System.out.println("Input valid Hero number : ");
                     heroSelect = ip.nextInt();
                 }
-                heroes.add(HeroType.heroList.get(heroSelect-1));
+                heroes.add(FactoryHero.heroList.get(heroSelect-1));
 
             }catch (Exception e){
                 System.out.println("Select valid Hero number.");
@@ -107,7 +108,7 @@ class Player {
     public static void printHeroes(){
         System.out.println("YOUR HEROES :\n=============");
         for (int i=0; i<heroes.size();i++)
-            System.out.println("["+(i+1)+"] "+heroes.get(i).name+" HP : "+heroes.get(i).HP);
+            System.out.println("["+(i+1)+"] "+heroes.get(i).getName()+" HP : "+heroes.get(i).getHP());
     }
 
     public static int selectHero(){
@@ -135,37 +136,38 @@ class Player {
 
     public static void levelUpHeroes(){
         // loop through heroes.
-        for(HeroType hero: Player.heroes){
+        for(Hero hero: Player.heroes){
             // add experience points for number of monsters defeated, which is same as number of heroes
-            hero.experience += Player.heroes.size() * 2;
-            // for heroes who did not faint, gold gain
-            if (hero.HP>0)
-                hero.gold = hero.level * 100;
+        	hero.levelUp(hero);
+//            hero.setExperience(hero.getExperience() + Player.heroes.size() * 2);
+//            // for heroes who did not faint, gold gain
+//            if (hero.getHP()>0)
+//                hero.setGold(hero.getLevel() * 100);
+//
+//            // check experience points
+//            if(hero.getExperience() > hero.getLevel()*10){
+//                hero.setLevel(hero.getLevel() + 1);
+//                // increase hero stats
+//                hero.setHP(hero.getLevel()*100);
+//                hero.setMP((int) (hero.getMP() * 1.1));
+//
+//                // level up favoured skills
+//                if(hero.getName().contains("Warrior")){
+//                    hero.setStrength((int) (hero.getStrength()*1.1));
+//                    hero.setAgility((int) (hero.getAgility()*1.1));
+//                    hero.setDexterity((int) (hero.getDexterity()*1.05));
+//                } else if (hero.getName().contains("Paladin")) {
+//                    hero.setStrength((int) (hero.getStrength()*1.1));
+//                    hero.setAgility((int) (hero.getAgility()*1.05));
+//                    hero.setDexterity((int) (hero.getDexterity()*1.1));
+//                } else if (hero.getName().contains("Sorcerer")) {
+//                    hero.setStrength((int) (hero.getStrength()*1.05));
+//                    hero.setAgility((int) (hero.getAgility()*1.1));
+//                    hero.setDexterity((int) (hero.getDexterity()*1.1));
+//                }
 
-            // check experience points
-            if(hero.experience > hero.level*10){
-                hero.level++;
-                // increase hero stats
-                hero.HP = hero.level*100;
-                hero.MP = (int) (hero.MP * 1.1);
-
-                // level up favoured skills
-                if(hero.name.contains("Warrior")){
-                    hero.strength = (int) (hero.strength*1.1);
-                    hero.agility = (int) (hero.agility*1.1);
-                    hero.dexterity = (int) (hero.dexterity*1.05);
-                } else if (hero.name.contains("Paladin")) {
-                    hero.strength = (int) (hero.strength*1.1);
-                    hero.agility = (int) (hero.agility*1.05);
-                    hero.dexterity = (int) (hero.dexterity*1.1);
-                } else if (hero.name.contains("Sorcerer")) {
-                    hero.strength = (int) (hero.strength*1.05);
-                    hero.agility = (int) (hero.agility*1.1);
-                    hero.dexterity = (int) (hero.dexterity*1.1);
-                }
-
-                System.out.println("HERO "+hero.name+" Levels Up!!");
-            }
+                System.out.println("HERO "+hero.getName()+" Levels Up!!");
+            
         }
 
     }
@@ -173,15 +175,15 @@ class Player {
     public static void printHeroesDetail(){
         System.out.println("YOUR HEROES :\n=============");
         for (int i=0; i<heroes.size();i++) {
-            System.out.println("\n[" + (i + 1) + "] " + heroes.get(i).name);
-            System.out.println("    HP : "+heroes.get(i).HP);
-            System.out.println("    MP : "+heroes.get(i).MP);
-            System.out.println("    Level : "+heroes.get(i).level);
-            System.out.println("    Strength : "+heroes.get(i).strength);
-            System.out.println("    Dexterity : "+heroes.get(i).MP);
-            System.out.println("    Agility : "+heroes.get(i).agility);
-            System.out.println("    Gold : "+heroes.get(i).gold);
-            System.out.println("    Experience : "+heroes.get(i).experience);
+            System.out.println("\n[" + (i + 1) + "] " + heroes.get(i).getName());
+            System.out.println("    HP : "+heroes.get(i).getHP());
+            System.out.println("    MP : "+heroes.get(i).getMP());
+            System.out.println("    Level : "+heroes.get(i).getLevel());
+            System.out.println("    Strength : "+heroes.get(i).getStrength());
+            System.out.println("    Dexterity : "+heroes.get(i).getMP());
+            System.out.println("    Agility : "+heroes.get(i).getAgility());
+            System.out.println("    Gold : "+heroes.get(i).getGold());
+            System.out.println("    Experience : "+heroes.get(i).getExperience());
             if(heroes.get(i).equipWeapon != null)
                 System.out.println("    Equipped Weapon : "+heroes.get(i).equipWeapon.name);
             else

@@ -2,9 +2,10 @@ package Item;
 import java.io.*;
 import java.util.*;
 
-import Player;
-import Character.HeroType;
+import Character.Hero;
 import Character.Monster;
+import Character.Player;
+import Factory.FactoryMonster;
 
 public class Spells {
 //    Has the attributes and values of the spells and their buy, sell, attack methods.
@@ -110,7 +111,7 @@ public class Spells {
     public static void printHeroSpells(int heroSelect) {
         System.out.println("\nHERO OWNED SPELLS\n"+"=================");
         System.out.println("Headers: Name / cost / required level / damage / mana cost");
-        ArrayList<Spells> heroSpells = Player.heroes.get(heroSelect).spellsInventory;
+        ArrayList<Spells> heroSpells = Player.heroes.get(heroSelect).getSpellsInventory();
         for (int j = 0; j < heroSpells.size(); j++) {
             Spells spell = heroSpells.get(j);
             System.out.println("[" + (j + 1) + "] " + spell.name + "  " + spell.cost + "  " + spell.level
@@ -119,8 +120,8 @@ public class Spells {
     }
 
     public static boolean buySpells(int heroSelect){
-        HeroType hero = Player.heroes.get(heroSelect);
-        System.out.println("Hero's Gold : "+hero.gold);
+        Hero hero = Player.heroes.get(heroSelect);
+        System.out.println("Hero's Gold : "+hero.getGold());
         printHeroSpells(heroSelect);
         printSpellsList();
 
@@ -141,20 +142,20 @@ public class Spells {
             return false;
         }
 
-        if ( hero.gold < spellsList.get(spellSelect).cost ){
+        if ( hero.getGold() < spellsList.get(spellSelect).cost ){
             System.out.println("Not enough gold.");
             return false;
         }
-        if ( hero.level < spellsList.get(spellSelect).level ){
+        if ( hero.getLevel() < spellsList.get(spellSelect).level ){
             System.out.println("Not at required level to buy this.");
             return false;
         }
 
-        if ( !hero.spellsInventory.contains(spellsList.get(spellSelect)) ) {
-            hero.spellsInventory.add(spellsList.get(spellSelect));
-            hero.gold -= spellsList.get(spellSelect).cost;
+        if ( !hero.getSpellsInventory().contains(spellsList.get(spellSelect)) ) {
+            hero.getSpellsInventory().add(spellsList.get(spellSelect));
+            hero.setGold(hero.getGold() - spellsList.get(spellSelect).cost);
             System.out.println("Spell bought : "+spellsList.get(spellSelect).name);
-            System.out.println("Hero's Current Gold : "+hero.gold);
+            System.out.println("Hero's Current Gold : "+hero.getGold());
             return true;
         }
         else
@@ -164,10 +165,10 @@ public class Spells {
     }
 
     public static boolean sellSpells(int heroSelect){
-        HeroType hero = Player.heroes.get(heroSelect);
-        System.out.println("Hero's Gold : "+hero.gold);
+        Hero hero = Player.heroes.get(heroSelect);
+        System.out.println("Hero's Gold : "+hero.getGold());
         System.out.println("You will get half the displayed cost of the spell in your inventory, if you sell.");
-        if(hero.spellsInventory.size()==0){
+        if(hero.getSpellsInventory().size()==0){
             System.out.println("No spells in inventory.");
             return false;
         }
@@ -180,7 +181,7 @@ public class Spells {
             System.out.print("Enter selection : ");
             spellSelect = ip.nextInt();
 
-            while(spellSelect<1 || spellSelect>hero.spellsInventory.size()){
+            while(spellSelect<1 || spellSelect>hero.getSpellsInventory().size()){
                 System.out.println("Input valid Spell number : ");
                 spellSelect = ip.nextInt();
             }
@@ -190,17 +191,17 @@ public class Spells {
             return false;
         }
 
-        hero.gold += hero.spellsInventory.get(spellSelect).cost / 2;
-        System.out.println("Spell sold : "+hero.spellsInventory.get(spellSelect).name);
-        hero.spellsInventory.remove(hero.spellsInventory.get(spellSelect));
-        System.out.println("Hero's Current Gold : "+hero.gold);
+        hero.setGold(hero.getGold() + hero.getSpellsInventory().get(spellSelect).cost / 2);
+        System.out.println("Spell sold : "+hero.getSpellsInventory().get(spellSelect).name);
+        hero.getSpellsInventory().remove(hero.getSpellsInventory().get(spellSelect));
+        System.out.println("Hero's Current Gold : "+hero.getGold());
 
         return true;
     }
 
     public static boolean selectSpell(int heroSelect, int monsterSelect){
         System.out.println("CHOOSE HERO SPELL TO CAST"+"\n===========================");
-        HeroType hero = Player.heroes.get(heroSelect);
+        Hero hero = Player.heroes.get(heroSelect);
         printHeroSpells(heroSelect);
 
         int spellSelect=0;
@@ -210,7 +211,7 @@ public class Spells {
             System.out.print("Enter selection : ");
             spellSelect = ip.nextInt();
 
-            while(spellSelect<1 || spellSelect>hero.spellsInventory.size()){
+            while(spellSelect<1 || spellSelect>hero.getSpellsInventory().size()){
                 System.out.println("Input valid Spell number : ");
                 spellSelect = ip.nextInt();
             }
@@ -220,26 +221,26 @@ public class Spells {
             return false;
         }
 
-        Spells spell = hero.spellsInventory.get(spellSelect);
-        Monster monster = Monster.spawnMonsters.get(monsterSelect);
+        Spells spell = hero.getSpellsInventory().get(spellSelect);
+        Monster monster = FactoryMonster.spawnMonsters.get(monsterSelect);
 
-        if(hero.MP<spell.mana){
+        if(hero.getMP()<spell.mana){
             System.out.println("Not enough mana to cast spell");
             return false;
         }
 
-        int spellDamage = spell.damage + (hero.dexterity/10000)*spell.damage;
+        long spellDamage = spell.damage + (hero.getDexterity()/10000)*spell.damage;
         // spell-wise damage
         if(spell.name.contains("Fire")){
-            monster.defense -= spellDamage;
+            monster.setDefense((int) (monster.getDefense() - spellDamage));
         }else if(spell.name.contains("Ice")){
-            monster.damage -= spellDamage;
+            monster.setDamage((int) (monster.getDamage() - spellDamage));
         }else if(spell.name.contains("Lightning")){
-            monster.dodge -= spellDamage;
+            monster.setDodge((int) (monster.getDodge() - spellDamage));
         }
 
-        System.out.println("Hero "+hero.name+" cast "+spell.name+" on Monster "+monster.name);
-        hero.spellsInventory.remove(spellSelect);
+        System.out.println("Hero "+hero.getName()+" cast "+spell.name+" on Monster "+monster.getName());
+        hero.getSpellsInventory().remove(spellSelect);
 
         return true;
     }

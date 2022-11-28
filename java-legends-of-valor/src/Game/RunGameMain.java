@@ -1,3 +1,4 @@
+package Game;
 import java.io.IOException;
 import java.util.Scanner;
 

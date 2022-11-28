@@ -2,22 +2,22 @@ package Item;
 import java.io.*;
 import java.util.*;
 
-import Player;
-import Character.HeroType;
+import Character.Hero;
+import Character.Player;
 
 public class Armory {
 //    Has the attributes and values of the armors and their buy, sell, equip methods.
-    String name;
+    public String name;
     int cost;
     int level;
-    int damage;
+    private int damage;
     public static ArrayList<Armory> armoryList;
 
     public Armory(String name, int cost, int level, int damage) {
         this.name = name;
         this.cost = cost;
         this.level = level;
-        this.damage = damage;
+        this.setDamage(damage);
     }
 
     public static void populate() throws IOException {
@@ -51,23 +51,23 @@ public class Armory {
         System.out.println("Headers : Name / cost / required level / damage reduction");
         for (int j = 0; j < armoryList.size(); j++) {
             Armory armory = armoryList.get(j);
-            System.out.println("[" + (j + 1) + "] " + armory.name + "  " + armory.cost + "  " + armory.level + "  " + armory.damage);
+            System.out.println("[" + (j + 1) + "] " + armory.name + "  " + armory.cost + "  " + armory.level + "  " + armory.getDamage());
         }
     }
 
     public static void printHeroArmory(int heroSelect) {
         System.out.println("\nHERO OWNED ARMORY\n"+"============");
         System.out.println("Headers : Name / cost / required level / damage reduction");
-        ArrayList<Armory> heroArmory = Player.heroes.get(heroSelect).armoryInventory;
+        ArrayList<Armory> heroArmory = Player.heroes.get(heroSelect).getArmoryInventory();
         for (int j = 0; j < heroArmory.size(); j++) {
             Armory armor = heroArmory.get(j);
-            System.out.println("[" + (j + 1) + "] " + armor.name + "  " + armor.cost + "  " + armor.level + "  " + armor.damage);
+            System.out.println("[" + (j + 1) + "] " + armor.name + "  " + armor.cost + "  " + armor.level + "  " + armor.getDamage());
         }
     }
 
     public static boolean buyArmory(int heroSelect){
-        HeroType hero = Player.heroes.get(heroSelect);
-        System.out.println("Hero's Gold : "+hero.gold);
+        Hero hero = Player.heroes.get(heroSelect);
+        System.out.println("Hero's Gold : "+hero.getGold());
         printHeroArmory(heroSelect);
         printArmoryList();
 
@@ -88,16 +88,16 @@ public class Armory {
             return false;
         }
 
-        if ( hero.gold < armoryList.get(armorSelect).cost ){
+        if ( hero.getGold() < armoryList.get(armorSelect).cost ){
             System.out.println("Not enough gold.");
             return false;
         }
 
-        if ( !hero.armoryInventory.contains(armoryList.get(armorSelect)) ) {
-            hero.armoryInventory.add(armoryList.get(armorSelect));
-            hero.gold -= armoryList.get(armorSelect).cost;
+        if ( !hero.getArmoryInventory().contains(armoryList.get(armorSelect)) ) {
+            hero.getArmoryInventory().add(armoryList.get(armorSelect));
+            hero.setGold(hero.getGold() - armoryList.get(armorSelect).cost);
             System.out.println("Armory bought : "+armoryList.get(armorSelect).name);
-            System.out.println("Hero's Current Gold : "+hero.gold);
+            System.out.println("Hero's Current Gold : "+hero.getGold());
             return true;
         }
         else
@@ -107,10 +107,10 @@ public class Armory {
     }
 
     public static boolean sellArmory(int heroSelect){
-        HeroType hero = Player.heroes.get(heroSelect);
-        System.out.println("Hero's Gold : "+hero.gold);
+        Hero hero = Player.heroes.get(heroSelect);
+        System.out.println("Hero's Gold : "+hero.getGold());
         System.out.println("You will get half the displayed cost of the armory in your inventory, if you sell.");
-        if(hero.armoryInventory.size()==0){
+        if(hero.getArmoryInventory().size()==0){
             System.out.println("No armor in inventory.");
             return false;
         }
@@ -124,7 +124,7 @@ public class Armory {
             System.out.print("Enter selection : ");
             armorSelect = ip.nextInt();
 
-            while(armorSelect<1 || armorSelect>hero.armoryInventory.size()){
+            while(armorSelect<1 || armorSelect>hero.getArmoryInventory().size()){
                 System.out.println("Input valid Armory number : ");
                 armorSelect = ip.nextInt();
             }
@@ -134,12 +134,20 @@ public class Armory {
             return false;
         }
 
-        hero.gold += hero.armoryInventory.get(armorSelect).cost / 2;
-        System.out.println("Armory sold : "+hero.armoryInventory.get(armorSelect).name);
-        hero.armoryInventory.remove(hero.armoryInventory.get(armorSelect));
-        System.out.println("Hero's Current Gold : "+hero.gold);
+        hero.setGold(hero.getGold() + hero.getArmoryInventory().get(armorSelect).cost / 2);
+        System.out.println("Armory sold : "+hero.getArmoryInventory().get(armorSelect).name);
+        hero.getArmoryInventory().remove(hero.getArmoryInventory().get(armorSelect));
+        System.out.println("Hero's Current Gold : "+hero.getGold());
 
         return true;
     }
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
 
 }

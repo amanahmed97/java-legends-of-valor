@@ -2,8 +2,8 @@ package Item;
 import java.io.*;
 import java.util.*;
 
-import Player;
-import Character.HeroType;
+import Character.Hero;
+import Character.Player;
 
 public class Potions {
 //    Has the attributes and values of the potions and their buy, sell, consume methods.
@@ -61,7 +61,7 @@ public class Potions {
     public static void printHeroPotions(int heroSelect) {
         System.out.println("\nHERO OWNED POTIONS\n"+"============");
         System.out.println("Headers : Name / cost / required level / attribute increase / attribute affected");
-        ArrayList<Potions> heroPotions = Player.heroes.get(heroSelect).potionsInventory;
+        ArrayList<Potions> heroPotions = Player.heroes.get(heroSelect).getPotionsInventory();
         for (int j = 0; j < heroPotions.size(); j++) {
             Potions potion = heroPotions.get(j);
             System.out.println("[" + (j + 1) + "] " + potion.name + "  " + potion.cost + "  " + potion.level
@@ -70,8 +70,8 @@ public class Potions {
     }
 
     public static boolean buyPotions(int heroSelect){
-        HeroType hero = Player.heroes.get(heroSelect);
-        System.out.println("Hero's Gold : "+hero.gold);
+        Hero hero = Player.heroes.get(heroSelect);
+        System.out.println("Hero's Gold : "+hero.getGold());
         printHeroPotions(heroSelect);
         printPotionsList();
 
@@ -92,20 +92,20 @@ public class Potions {
             return false;
         }
 
-        if ( hero.gold < potionsList.get(potionSelect).cost ){
+        if ( hero.getGold() < potionsList.get(potionSelect).cost ){
             System.out.println("Not enough gold.");
             return false;
         }
-        if ( hero.level < potionsList.get(potionSelect).level ){
+        if ( hero.getLevel() < potionsList.get(potionSelect).level ){
             System.out.println("Not at required level to buy this.");
             return false;
         }
 
-        if ( !hero.potionsInventory.contains(potionsList.get(potionSelect)) ) {
-            hero.potionsInventory.add(potionsList.get(potionSelect));
-            hero.gold -= potionsList.get(potionSelect).cost;
+        if ( !hero.getPotionsInventory().contains(potionsList.get(potionSelect)) ) {
+            hero.getPotionsInventory().add(potionsList.get(potionSelect));
+            hero.setGold(hero.getGold() - potionsList.get(potionSelect).cost);
             System.out.println("Potion bought : "+potionsList.get(potionSelect).name);
-            System.out.println("Hero's Current Gold : "+hero.gold);
+            System.out.println("Hero's Current Gold : "+hero.getGold());
             return true;
         }
         else
@@ -115,10 +115,10 @@ public class Potions {
     }
 
     public static boolean sellPotions(int heroSelect){
-        HeroType hero = Player.heroes.get(heroSelect);
-        System.out.println("Hero's Gold : "+hero.gold);
+        Hero hero = Player.heroes.get(heroSelect);
+        System.out.println("Hero's Gold : "+hero.getGold());
         System.out.println("You will get half the displayed cost of the potion in your inventory, if you sell.");
-        if(hero.potionsInventory.size()==0){
+        if(hero.getPotionsInventory().size()==0){
             System.out.println("No potions in inventory.");
             return false;
         }
@@ -131,7 +131,7 @@ public class Potions {
             System.out.print("Enter selection : ");
             potionSelect = ip.nextInt();
 
-            while(potionSelect<1 || potionSelect>hero.potionsInventory.size()){
+            while(potionSelect<1 || potionSelect>hero.getPotionsInventory().size()){
                 System.out.println("Input valid Potion number : ");
                 potionSelect = ip.nextInt();
             }
@@ -141,17 +141,17 @@ public class Potions {
             return false;
         }
 
-        hero.gold += hero.potionsInventory.get(potionSelect).cost / 2;
-        System.out.println("Potion sold : "+hero.potionsInventory.get(potionSelect).name);
-        hero.potionsInventory.remove(hero.potionsInventory.get(potionSelect));
-        System.out.println("Hero's Current Gold : "+hero.gold);
+        hero.setGold(hero.getGold() + hero.getPotionsInventory().get(potionSelect).cost / 2);
+        System.out.println("Potion sold : "+hero.getPotionsInventory().get(potionSelect).name);
+        hero.getPotionsInventory().remove(hero.getPotionsInventory().get(potionSelect));
+        System.out.println("Hero's Current Gold : "+hero.getGold());
 
         return true;
     }
 
     public static boolean selectPotion(int heroSelect){
         System.out.println("CHOOSE HERO POTION TO USE"+"\n===========================");
-        HeroType hero = Player.heroes.get(heroSelect);
+        Hero hero = Player.heroes.get(heroSelect);
         printHeroPotions(heroSelect);
 
         int potionSelect=0;
@@ -161,7 +161,7 @@ public class Potions {
             System.out.print("Enter selection : ");
             potionSelect = ip.nextInt();
 
-            while(potionSelect<1 || potionSelect>hero.potionsInventory.size()){
+            while(potionSelect<1 || potionSelect>hero.getPotionsInventory().size()){
                 System.out.println("Input valid Potion number : ");
                 potionSelect = ip.nextInt();
             }
@@ -171,26 +171,26 @@ public class Potions {
             return false;
         }
 
-        Potions potion = hero.potionsInventory.get(potionSelect);
+        Potions potion = hero.getPotionsInventory().get(potionSelect);
 
         // attribute-wise increase
         if(potion.attribute.contains("Health")){
-            hero.HP += potion.increase;
+            hero.setHP(hero.getHP() + potion.increase);
         }
         if(potion.attribute.contains("Strength")){
-            hero.strength += potion.increase;
+            hero.setStrength(hero.getStrength() + potion.increase);
         }
         if(potion.attribute.contains("Mana")){
-            hero.MP += potion.increase;
+            hero.setMP(hero.getMP() + potion.increase);
         }
         if(potion.attribute.contains("Agility")){
-            hero.agility += potion.increase;
+            hero.setAgility(hero.getAgility() + potion.increase);
         }
         if(potion.attribute.contains("Dexterity")){
-            hero.dexterity += potion.increase;
+            hero.setDexterity(hero.getDexterity() + potion.increase);
         }
 
-        hero.potionsInventory.remove(potionSelect);
+        hero.getPotionsInventory().remove(potionSelect);
         System.out.println("Potion "+potion.name+" consumed.\n");
 
         return true;

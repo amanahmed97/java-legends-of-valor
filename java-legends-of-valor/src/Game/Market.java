@@ -1,6 +1,8 @@
+package Game;
 import java.io.*;
 import java.util.*;
 
+import Character.Player;
 import Item.Armory;
 import Item.Potions;
 import Item.Spells;

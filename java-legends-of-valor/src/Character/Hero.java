@@ -1,141 +1,99 @@
 package Character;
+import java.io.*;
+import java.util.*;
 
-import java.util.ArrayList;
-
-import Item.Item;
+import Factory.FactoryMonster;
+import Item.Armory;
+import Item.Potions;
+import Item.Spells;
+import Item.Weapons;
 import LevelUp.LevelUpBehaviour;
 import LevelUp.PaladinLevelUpBehaviour;
 import LevelUp.SorcererLevelUpBehaviour;
 import LevelUp.WarriorLevelUpBehaviour;
 
-public class Hero extends Character {
-	
-//	String name;
-//    int level;
-//    int HP;
-//    int MP;
-//    int strength;
-//    int dexterity;
-//    int agility;
-//    int gold;
-//    int experience;
-    
-    private double MP;
-	private long strength;
-	private long dexterity;
-	private long agility;
-	private long gold;
+public class Hero {
+//    	Has the implementation and attributes of the heroes from parsing text files to creation and methods for hero's actions.
+	private int MP;
+	private int strength;
+	private int dexterity;
+	private int agility;
+	private int gold;
 	private int experience;
-	protected LevelUpBehaviour lu;
-	
-	public static ArrayList<Hero> heroList; //create different class?
-
-    ArrayList<Weapons> weaponsInventory;
-    ArrayList<Armory> armoryInventory;
-    ArrayList<Spells> spellsInventory;
-    ArrayList<Potions> potionsInventory;
+    private String name;
+    private int level;
+    private int HP;
+    //position?
     
+
+    private ArrayList<Weapons> weaponsInventory;
+    private ArrayList<Armory> armoryInventory;
+    private ArrayList<Spells> spellsInventory;
+    private ArrayList<Potions> potionsInventory;
     Weapons equipWeapon; //todo Selling unequip
     Armory equipArmor;
+    
+    protected LevelUpBehaviour lu;
 
-    public Hero(String name, int MP, int strength, int agility, int dexterity, int gold, int experience, String category) {
+    public Hero(String category, String name, int MP, int strength, int agility, int dexterity, int gold, int experience) {
+        this.setName(name);
+        this.setLevel(1);
+        this.setHP(getLevel() * 100);
         this.MP = MP;
         this.strength = strength;
         this.dexterity = dexterity;
         this.agility = agility;
         this.gold = gold;
         this.experience = experience;
-        
-        setName(name);
-		setLevel(he.getLevel());
-		setHP(he.getHP());
-		setMP(he.getMP());
-		setStrength(he.getStrength());
-		setDexterity(he.getDexterity());
-		setAgility(he.getAgility());
-		setGold(he.getGold());
-		setExperience(he.getExperience());
-        
-        this.weaponsInventory = new ArrayList<Weapons>();
-        this.armoryInventory = new ArrayList<Armory>();
-        this.spellsInventory = new ArrayList<Spells>();
-        this.potionsInventory = new ArrayList<Potions>();
+        this.setWeaponsInventory(new ArrayList<Weapons>());
+        this.setArmoryInventory(new ArrayList<Armory>());
+        this.setSpellsInventory(new ArrayList<Spells>());
+        this.setPotionsInventory(new ArrayList<Potions>());
         this.equipWeapon = null;
         this.equipArmor = null;
-        
-        if (this.getCategory() == "Paladin") {
+        if (category == "paladin") {
 			lu = new PaladinLevelUpBehaviour();
-		} else if (this.getCategory() == "Warrior") {
+		} else if (category == "warrior") {
 			lu = new WarriorLevelUpBehaviour();
-		} else if(this.getCategory() == "Sorcerer") {
+		} else if(category == "sorcerer") {
 			lu = new SorcererLevelUpBehaviour();
 		}
-		break;
     }
-	
-	public Hero(String name) {
-		for(HeroesEnum he : HeroesEnum.values()) {
-			
-            if (he.getName().equalsIgnoreCase(name)) {
-            	setName(name);
-        		setLevel(he.getLevel());
-        		setHP(he.getHP());
-        		setMP(he.getMP());
-        		setStrength(he.getStrength());
-        		setDexterity(he.getDexterity());
-        		setAgility(he.getAgility());
-        		setGold(he.getGold());
-        		setExperience(he.getExperience());
-        		if (he.getCategory() == "Paladin") {
-        			lu = new PaladinLevelUpBehaviour();
-        		} else if (he.getCategory() == "Warrior") {
-        			lu = new WarriorLevelUpBehaviour();
-        		} else if(he.getCategory() == "Sorcerer") {
-        			lu = new SorcererLevelUpBehaviour();
-        		}
-        		break;
-        		
-            }
-        }
-	}
-	
-	
-	
-	
-	public void levelUp(Hero hero){
+    
+    public void levelUp(Hero hero){
 		lu.levelUp(hero);
 	}
 	
 	private ArrayList<String> inventory = new ArrayList<String>();
 	
-	public double getMP() {
+	public int getMP() {
 		return MP;
 	}
-	public void setMP(double d) {
+	public void setMP(int d) {
 		MP = d;
 	}
-	public long getStrength() {
+	public int getStrength() {
 		return strength;
 	}
-	public void setStrength(long strength) {
+	public void setStrength(int strength) {
 		this.strength = strength;
 	}
-	public long getDexterity() {
+	public int getDexterity() {
 		return dexterity;
 	}
-	public void setDexterity(long dexterity) {
+	public void setDexterity(int dexterity) {
 		this.dexterity = dexterity;
 	}
-	public long getAgility() {
+	public int getAgility() {
 		return agility;
 	}
-	public void setAgility(long agility) {
+	public void setAgility(int agility) {
 		this.agility = agility;
 	}
-	public long getGold() {
+	public int getGold() {
 		return gold;
 	}
-	public void setGold(long gold) {
+	public void setGold(int gold) {
 		this.gold = gold;
 	}
 	public ArrayList<String> getInventory() {
@@ -150,7 +108,183 @@ public class Hero extends Character {
 	public void setExperience(int experience) {
 		this.experience = experience;
 	}
-	
-	
-	
+
+
+    public boolean equipWeapon(int heroSelect){
+        System.out.println("HERO : "+getName()+"\n=================");
+        if(Player.heroes.get(heroSelect).getWeaponsInventory().size()==0){
+            System.out.println("No weapons in inventory.");
+            return false;
+        }
+        System.out.println("CHOOSE HERO WEAPON TO EQUIP"+"\n============================");
+
+        Weapons.printHeroWeapons(heroSelect);
+
+        int weaponSelect=0;
+        Scanner ip = new Scanner(System.in);
+
+        try {
+            System.out.print("Enter selection : ");
+            weaponSelect = ip.nextInt();
+
+            while(weaponSelect<1 || weaponSelect>getWeaponsInventory().size()){
+                System.out.println("Input valid Weapon number : ");
+                weaponSelect = ip.nextInt();
+            }
+            weaponSelect--;
+        }catch (Exception e){
+            System.out.println("Select valid Weapon number.");
+            return false;
+        }
+
+        equipWeapon = getWeaponsInventory().get(weaponSelect);
+        return true;
+    }
+
+    public boolean equipArmor(int heroSelect){
+        System.out.println("\nHERO : "+getName());
+        if(Player.heroes.get(heroSelect).getArmoryInventory().size()==0){
+            System.out.println("No armor in inventory.");
+            return false;
+        }
+        System.out.println("CHOOSE HERO ARMOR TO EQUIP"+"\n===========================");
+
+        Armory.printHeroArmory(heroSelect);
+
+        int armorSelect=0;
+        Scanner ip = new Scanner(System.in);
+
+        try {
+            System.out.print("Enter selection : ");
+            armorSelect = ip.nextInt();
+
+            while(armorSelect<1 || armorSelect>getWeaponsInventory().size()){
+                System.out.println("Input valid Armor number : ");
+                armorSelect = ip.nextInt();
+            }
+            armorSelect--;
+        }catch (Exception e){
+            System.out.println("Select valid Armor number.");
+            return false;
+        }
+
+        equipArmor = getArmoryInventory().get(armorSelect);
+        return true;
+    }
+
+    public boolean attack(){
+        Random random = new Random();
+        // Select which monster to attack
+        int monsterSelect = Monster.selectMonster();
+        if (monsterSelect<0)
+            return false;
+
+        Monster monster = FactoryMonster.spawnMonsters.get(monsterSelect);
+
+        // Check Monster dodge
+        double dodgeChance = monster.dodge * 0.01;
+        int randomDodge = random.nextInt(monster.dodge);
+        int heroAttack=0;
+
+        if ( randomDodge > dodgeChance ){
+            // todo defense
+            if (equipWeapon!=null){
+                heroAttack = (int) ( (strength+equipWeapon.getDamage())*0.05 - monster.defense*0.05);
+            }else{
+                heroAttack = (int) ( (strength)*0.05 - monster.defense*0.05);
+            }
+
+            monster.HP -= heroAttack;
+
+            System.out.println("\nHero "+getName()+" attacks Monster "+monster.name
+                    +" for damage "+heroAttack);
+
+            // Check if monster is finished
+            if(monster.HP <= 0){
+                System.out.println("\nMonster "+monster.name+" is finished.");
+                FactoryMonster.spawnMonsters.remove(monster);
+            }
+
+        }else{
+            System.out.println("\nMonster "+monster.name+" dodged Hero "+getName()+" attack");
+        }
+
+        return true;
+    }
+
+    public boolean usePotion(int heroSelect){
+        System.out.println("\nHERO : "+getName());
+        if(Player.heroes.get(heroSelect).getPotionsInventory().size()==0){
+            System.out.println("No potions in inventory.");
+            return false;
+        }
+        return Potions.selectPotion(heroSelect);
+    }
+
+    public boolean castSpell(int heroSelect){
+        Random random = new Random();
+        // Select which monster to attack
+        int monsterSelect = Monster.selectMonster();
+        if (monsterSelect<0)
+            return false;
+
+        return Spells.selectSpell(heroSelect, monsterSelect);
+    }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getHP() {
+		return HP;
+	}
+
+	public void setHP(int hP) {
+		HP = hP;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public ArrayList<Weapons> getWeaponsInventory() {
+		return weaponsInventory;
+	}
+
+	public void setWeaponsInventory(ArrayList<Weapons> weaponsInventory) {
+		this.weaponsInventory = weaponsInventory;
+	}
+
+	public ArrayList<Armory> getArmoryInventory() {
+		return armoryInventory;
+	}
+
+	public void setArmoryInventory(ArrayList<Armory> armoryInventory) {
+		this.armoryInventory = armoryInventory;
+	}
+
+	public ArrayList<Spells> getSpellsInventory() {
+		return spellsInventory;
+	}
+
+	public void setSpellsInventory(ArrayList<Spells> spellsInventory) {
+		this.spellsInventory = spellsInventory;
+	}
+
+	public ArrayList<Potions> getPotionsInventory() {
+		return potionsInventory;
+	}
+
+	public void setPotionsInventory(ArrayList<Potions> potionsInventory) {
+		this.potionsInventory = potionsInventory;
+	}
+
 }

@@ -14,15 +14,15 @@ public class WarriorLevelUpBehaviour implements LevelUpBehaviour{
 
 		hero.setHP(hero.getLevel() * 100);
 
-		hero.setMP(hero.getMP() * 1.1);
+		hero.setMP((int) (hero.getMP() * 1.1));
 
-		long strength = (long) (hero.getStrength() + (0.1 * hero.getStrength()));
+		int strength = (int) (hero.getStrength() + (0.1 * hero.getStrength()));
 		hero.setStrength(strength);
 
-		long dexterity = (long) (hero.getDexterity() + (0.05 * hero.getDexterity()));
+		int dexterity = (int) (hero.getDexterity() + (0.05 * hero.getDexterity()));
 		hero.setDexterity(dexterity);
 
-		long agility = (long) (hero.getAgility() + (0.1 * hero.getAgility()));
+		int agility = (int) (hero.getAgility() + (0.1 * hero.getAgility()));
 		hero.setAgility(agility);
 
 	}
