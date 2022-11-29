@@ -2,7 +2,7 @@ package CellBehaviour;
 
 import Character.Hero;
 
-public abstract class CellBehaviour {
+public interface CellBehaviour {
 
     public abstract void heroEnterBehaviour(Hero hero); //parameter: Hero hero
 

@@ -1,8 +1,10 @@
 package BoardAndCell;
 
 import CellBehaviour.CellBehaviour;
+import CellBehaviour.PlainCellBehaviour;
+import Character.Hero;
 
-public abstract class Cell {
+public class Cell {
 
     private int row, column;
     private String color;
@@ -24,6 +26,13 @@ public abstract class Cell {
 //		return ;
 //
 //	}
+    public void heroEnter(Hero hero){
+		cb.heroEnterBehaviour(hero);
+	}
+	
+	public void heroLeave(Hero hero) {
+		cb.heroLeaveBehaviour(hero);
+	}
 
     public int getRow() {
         return row;

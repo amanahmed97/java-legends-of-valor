@@ -52,10 +52,10 @@ public class Board {
 //                } else if (RunGame.player.xPosition==i && RunGame.player.yPosition==j) {
 //                    System.out.print("|  H");
 //                }else
-                if (cells.get(i-1).get(j-1).getSymbol().equals("   "))
+                if (cells.get(i-1).get(j-1).getSymbol().equals("-"))
                     System.out.print("|"+cells.get(i-1).get(j-1).getColor()+"   "+Colors.RESET);
                 else
-                    System.out.print("|"+cells.get(i-1).get(j-1).getColor()+"  " + cells.get(i-1).get(j-1).getSymbol()+Colors.RESET);
+                    System.out.print("|"+cells.get(i-1).get(j-1).getColor()+ "  " + Colors.WHITE + cells.get(i-1).get(j-1).getSymbol()+Colors.RESET);
 
 //                if (RunGame.player.xPosition==i && RunGame.player.yPosition==j && BoardMap[i][j].symbol=='M')
 //                    System.out.print(" ");

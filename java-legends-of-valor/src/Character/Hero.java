@@ -262,15 +262,18 @@ public class Hero {
         return Spells.selectSpell(heroSelect, monsterSelect);
     }
     
-    public boolean setPosition(int xPosition, int yPosition){
+    public boolean setPosition(int xPosition, int yPosition, Hero hero){
         // Reset old position
         //RunGame.board.setBoard(this.xPosition, this.yPosition, '-');
-        RunGame.board.getCells().get(xPosition).get(yPosition).setSymbol("-");
+        RunGame.board.getCells().get(this.xPosition).get(this.yPosition).setSymbol("-");
+        RunGame.board.getCells().get(this.xPosition).get(this.yPosition).heroLeave(hero);
+        
         // New position
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         //RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
-        RunGame.board.getCells().get(xPosition).get(yPosition).setSymbol("H");
+        RunGame.board.getCells().get(this.xPosition).get(this.yPosition).setSymbol("H");
+        RunGame.board.getCells().get(this.xPosition).get(this.yPosition).heroEnter(hero);
         return true;
     }
     

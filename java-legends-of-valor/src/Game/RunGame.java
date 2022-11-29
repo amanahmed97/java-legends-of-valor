@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import BoardAndCell.Board;
+import BoardAndCell.Colors;
 import Character.Hero;
 import Character.Monster;
 import Character.Player;
@@ -149,7 +150,7 @@ public class RunGame {
 
 		System.out.println("\nHERO TURN : "+hero.getName()+"\n=========");
 		System.out.println("Markers: H - Hero, X - Inaccessible space");
-		System.out.println("White: Nexus, Yellow - Bush, Blue - Cave, Pink - Koulou, Green - Plain");
+		System.out.println(Colors.WHITE_BACKGROUND+ "     " +Colors.RESET+ " - Nexus, " + Colors.YELLOW_BACKGROUND_BRIGHT + "     " + Colors.RESET + " - Bush, " + Colors.BLUE_BACKGROUND + "     " + Colors.RESET + " - Cave, " + Colors.PURPLE_BACKGROUND+ "     " + Colors.RESET + " - Koulou, " + Colors.GREEN_BACKGROUND + "     " + Colors.RESET + " - Plain");
 		System.out.println("Movement: w - Move Up, s - Move Down, a - Move Left, d - Move Right");
 		System.out.println("Actions: i - info, m - Enter Market, q - Quit");
 		System.out.print("Enter: ");
@@ -180,7 +181,7 @@ public class RunGame {
 		case 'w':
 			newXPosition = hero.getxPosition() - 1;
 			if (Board.validPosition(newXPosition, hero.getyPosition())) {
-				hero.setPosition(newXPosition, hero.getyPosition());
+				hero.setPosition(newXPosition, hero.getyPosition(), hero);
 				generateBattle(heroSelect);
 			} else
 				return false;
@@ -188,7 +189,7 @@ public class RunGame {
 		case 'a':
 			newYPosition = hero.getyPosition() - 1;
 			if (Board.validPosition(hero.getxPosition(), newYPosition)) {
-				hero.setPosition(hero.getxPosition(), newYPosition);
+				hero.setPosition(hero.getxPosition(), newYPosition, hero);
 				generateBattle(heroSelect);
 			} else 
 				return false;
@@ -196,7 +197,7 @@ public class RunGame {
 		case 's':
 			newXPosition = hero.getxPosition() + 1;
 			if (Board.validPosition(newXPosition, hero.getyPosition())) {
-				hero.setPosition(newXPosition, hero.getyPosition());
+				hero.setPosition(newXPosition, hero.getyPosition(), hero);
 				generateBattle(heroSelect);
 			} else
 				return false;
@@ -204,7 +205,7 @@ public class RunGame {
 		case 'd':
 			newYPosition = hero.getyPosition() + 1;
 			if (Board.validPosition(hero.getxPosition(), newYPosition)) {
-				hero.setPosition(hero.getxPosition(), newYPosition);
+				hero.setPosition(hero.getxPosition(), newYPosition, hero);
 				generateBattle(heroSelect);
 			} else
 				return false;

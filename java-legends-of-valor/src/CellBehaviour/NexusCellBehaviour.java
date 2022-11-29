@@ -2,7 +2,7 @@ package CellBehaviour;
 
 import Character.Hero;
 
-public class InaccessibleCellBehaviour implements CellBehaviour{
+public class NexusCellBehaviour implements CellBehaviour{
 
 	@Override
 	public void heroEnterBehaviour(Hero hero) {
@@ -15,5 +15,5 @@ public class InaccessibleCellBehaviour implements CellBehaviour{
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 }
