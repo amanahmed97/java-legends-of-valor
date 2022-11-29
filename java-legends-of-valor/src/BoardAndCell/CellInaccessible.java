@@ -6,8 +6,8 @@ public class CellInaccessible extends Cell{
 
 	public CellInaccessible(int i, int j) {
 		super(i, j);
-		this.setColor(ANSI_RED_BACKGROUND);
-		this.setLetter(" X ");
+		this.setColor(Colors.BLACK_BACKGROUND);
+		this.setSymbol("X");
 		this.setCellEnter(false);
 		this.setCanEnterMarket(false);
 	}

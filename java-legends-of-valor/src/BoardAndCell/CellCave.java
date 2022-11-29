@@ -9,7 +9,7 @@ public class CellCave extends Cell{
 	public CellCave(int i, int j) {
 		super(i, j);
 		this.setColor(ANSI_BLUE_BACKGROUND);
-		this.setLetter("  ");
+		this.setSymbol("   ");
 		this.setCellEnter(true);
 		this.setCanEnterMarket(false);
 		super.cb = new CaveCellBehaviour();

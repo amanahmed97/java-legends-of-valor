@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import BoardAndCell.Board;
 import Character.Monster;
 import Character.Player;
 import Game.RunGameMain;
+import Game.RunGame;
 
 public class FactoryMonster {
 	
@@ -110,13 +112,22 @@ public class FactoryMonster {
         ArrayList<Integer> selected = new ArrayList<Integer>();
         Random random = new Random();
         //todo scale level
-        for(int i=0; i<RunGameMain.numberHeroes; i++){
+        for(int i=0; i<RunGame.numberHeroes; i++){
             int randomSelector = random.nextInt(monsterList.size());
             if ( !selected.contains(randomSelector) ) {
                 spawnMonsters.add(monsterList.get(randomSelector));
                 selected.add(randomSelector);
-                spawnMonsters.get(i).setLevel(Player.heroes.get(i).getLevel());
-                spawnMonsters.get(i).setHP(spawnMonsters.get(i).getLevel()*100);
+                Monster monster = spawnMonsters.get(i);
+                monster.setLevel(Player.heroes.get(i).getLevel());
+                monster.setHP(monster.getLevel()*100);
+                // Set starting position for the monsters
+                monster.setxPosition(Board.dimension-1);
+                monster.setyPosition(i * 3);
+                monster.setLane(spawnMonsters.size()-1);
+                //RunGame.board.setBoard(monster.getxPosition(), monster.getyPosition(), 'M');
+                RunGame.board.getCells().get(monster.getxPosition()).get(monster.getyPosition()).setSymbol("M");
+            } else{
+                i--;
             }
         }
 
@@ -131,7 +142,7 @@ public class FactoryMonster {
             System.out.println("[" + (j + 1) + "] " + monster.getName() + "  " + monster.getLevel() + "  " + monster.getDamage() + "  " + monster.getDefense() + "  " + monster.getDodge());
         }
     }
-
+    
     public static void printSpawnMonsters() {
         System.out.println("SPAWNED MONSTERS\n================");
         for (int j = 0; j < spawnMonsters.size(); j++) {

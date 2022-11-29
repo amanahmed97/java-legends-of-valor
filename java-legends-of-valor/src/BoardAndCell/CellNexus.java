@@ -6,8 +6,8 @@ public class CellNexus extends Cell{
 
 	public CellNexus(int i, int j) {
 		super(i, j);
-		this.setColor(ANSI_GREEN_BACKGROUND);
-		this.setLetter("   ");
+		this.setColor(Colors.WHITE_BACKGROUND);
+		this.setSymbol("   ");
 		this.setCellEnter(true);
 		this.setCanEnterMarket(false);
 	}

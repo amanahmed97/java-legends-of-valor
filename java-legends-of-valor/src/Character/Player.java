@@ -7,132 +7,129 @@ import Item.Armory;
 import Item.Potions;
 import Item.Spells;
 import Item.Weapons;
+import Game.RunGame;
 
 public class Player {
-//    Contains the Player heroes and attributes, methods related to Player heroes.
-    String name;
-    int team = 0;
-    int score = 0;
-    String playerMarker;
-    int xPosition = 0;
-    int yPosition = 0;
-    public static ArrayList<Hero> heroes;
+//  Contains the Player heroes and attributes, methods related to Player heroes.
+  String name;
+  int team = 0;
+  int score = 0;
+  String playerMarker;
+//  int xPosition = 0;
+//  int yPosition = 0;
+  public static ArrayList<Hero> heroes;
+  public static ArrayList<Monster> monsters;
 
-    public Player(String name, int team) {
-        this.name = name;
-        this.team = team;
-        this.xPosition = 0;
-        this.yPosition = 0;
-//        RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
-        heroes = new ArrayList<Hero>();
-    }
+  public Player(String name, int team) {
+      this.name = name;
+      this.team = team;
+      heroes = new ArrayList<Hero>();
+  }
 
-    public Player(String name, int team, String playerMarker) {
-        this.name = name;
-        this.team = team;
-        this.playerMarker = playerMarker;
-        this.xPosition = 0;
-        this.yPosition = 0;
-//        RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
-        heroes = new ArrayList<Hero>();
-    }
+  public Player(String name, int team, String playerMarker) {
+      this.name = name;
+      this.team = team;
+      this.playerMarker = playerMarker;
+      heroes = new ArrayList<Hero>();
+  }
 
-    public int scoreUpdate(int s) {
-        score += s;
-        return score;
-    }
+  public int scoreUpdate(int s) {
+      score += s;
+      return score;
+  }
 
-    public int getScore() {
-        return score;
-    }
+  public int getScore() {
+      return score;
+  }
 
-    public boolean setPosition(int xPosition, int yPosition){
-        // Reset old position
-//        RunGame.board.setBoard(this.xPosition, this.yPosition, '-');
-        // New position
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
-//        RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
 
-        return true;
-    }
+  public static int getNumberHeroes() {
+      // Default set to 1 player Hero
+      int numberHeroes = 1;
+      Scanner ip = new Scanner(System.in);
 
-    public static int getNumberHeroes() {
-        // Default set to 1 player Hero
-        int numberHeroes = 1;
-        Scanner ip = new Scanner(System.in);
+      System.out.print("Enter number of heroes to play - Max 3 : ");
+      try {
+          numberHeroes = ip.nextInt();
+          while (numberHeroes<1 || numberHeroes>3) {
+              System.out.println("Enter value between 1 to 3 : ");
+              numberHeroes = ip.nextInt();
+          }
+      } catch (Exception e) {
+          System.out.println("Enter valid value.");
+          numberHeroes = getNumberHeroes();
+      }
 
-        System.out.print("Enter number of heroes to play - Max 3 : ");
-        try {
-            numberHeroes = ip.nextInt();
-            while (numberHeroes<1 || numberHeroes>3) {
-                System.out.println("Enter value between 1 to 3 : ");
-                numberHeroes = ip.nextInt();
-            }
-        } catch (Exception e) {
-            System.out.println("Enter valid value.");
-            numberHeroes = getNumberHeroes();
-        }
+      return numberHeroes;
+  }
 
-        return numberHeroes;
-    }
+  public static void heroSet(int numberHeroes) throws IOException {
+      FactoryHero.populateHeroes();
 
-    public static void heroSet(int numberHeroes) throws IOException {
-        FactoryHero.populateHeroes();
+      Scanner ip = new Scanner(System.in);
+      int heroSelect=0;
 
-        Scanner ip = new Scanner(System.in);
-        int heroSelect=0;
+      for (int i = 0; i < numberHeroes; i++) {
+          // Player Information input
+          System.out.println("Choose Hero " + (i + 1) + " :");
+          FactoryHero.printHeroList();
+          System.out.print("Enter Hero Number : ");
+          try {
+              heroSelect = ip.nextInt();
 
-        for (int i = 0; i < numberHeroes; i++) {
-            // Player Information input
-            System.out.println("Choose Hero " + (i + 1) + " :");
-            FactoryHero.printHeroList();
-            System.out.print("Enter Hero Number : ");
-            try {
-                heroSelect = ip.nextInt();
+              while(heroSelect<1 || heroSelect>FactoryHero.heroList.size()){
+                  System.out.println("Input valid Hero number : ");
+                  heroSelect = ip.nextInt();
+              }
+              heroes.add(FactoryHero.heroList.get(heroSelect-1));
 
-                while(heroSelect<1 || heroSelect>FactoryHero.heroList.size()){
-                    System.out.println("Input valid Hero number : ");
-                    heroSelect = ip.nextInt();
-                }
-                heroes.add(FactoryHero.heroList.get(heroSelect-1));
+          }catch (Exception e){
+              System.out.println("Select valid Hero number.");
+              heroSet(numberHeroes);
+          }
+      }
 
-            }catch (Exception e){
-                System.out.println("Select valid Hero number.");
-                heroSet(numberHeroes);
-            }
-        }
-        printHeroes();
-    }
+      // Set starting position for the heroes
+      for (int i=0; i<heroes.size();i++) {
+          Hero hero = heroes.get(i);
+          hero.xPosition = 0;
+          hero.yPosition = i * 3;
+          //RunGame.board.setBoard(hero.xPosition, hero.yPosition, 'H');
+          RunGame.board.getCells().get(hero.xPosition).get(hero.yPosition).setSymbol("H");
+          hero.lane = i;
+      }
 
-    public static void printHeroes(){
-        System.out.println("YOUR HEROES :\n=============");
-        for (int i=0; i<heroes.size();i++)
-            System.out.println("["+(i+1)+"] "+heroes.get(i).getName()+" HP : "+heroes.get(i).getHP());
-    }
+      printHeroes();
+  }
 
-    public static int selectHero(){
-        printHeroes();
+  public static void printHeroes(){
+      System.out.println("YOUR HEROES :\n=============");
+      for (int i=0; i<heroes.size();i++)
+          System.out.println("["+(i+1)+"] "+heroes.get(i).getName()+" HP : "+heroes.get(i).getHP());
+  }
 
-        int heroSelect=0;
-        Scanner ip = new Scanner(System.in);
+  public static int selectHero(){
+      printHeroes();
 
-        try {
-            System.out.print("Enter selection : ");
-            heroSelect = ip.nextInt();
+      int heroSelect=0;
+      Scanner ip = new Scanner(System.in);
 
-            while(heroSelect<1 || heroSelect>heroes.size()){
-                System.out.println("Input valid Hero number : ");
-                heroSelect = ip.nextInt();
-            }
+      try {
+          System.out.print("Enter selection : ");
+          heroSelect = ip.nextInt();
 
-        }catch (Exception e){
-            System.out.println("Select valid Hero number.");
-            heroSelect = selectHero()+1;
-        }
+          while(heroSelect<1 || heroSelect>heroes.size()){
+              System.out.println("Input valid Hero number : ");
+              heroSelect = ip.nextInt();
+          }
 
-        return heroSelect-1;
-    }
+      }catch (Exception e){
+          System.out.println("Select valid Hero number.");
+          heroSelect = selectHero()+1;
+      }
+
+      return heroSelect-1;
+  }
 
     public static void levelUpHeroes(){
         // loop through heroes.
@@ -166,7 +163,7 @@ public class Player {
 //                    hero.setDexterity((int) (hero.getDexterity()*1.1));
 //                }
 
-                System.out.println("HERO "+hero.getName()+" Levels Up!!");
+//                System.out.println("HERO "+hero.getName()+" Levels Up!!");
             
         }
 

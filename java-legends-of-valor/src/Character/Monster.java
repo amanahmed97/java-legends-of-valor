@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.*;
 
 import Factory.FactoryMonster;
+import Game.RunGame;
 
 
 public class Monster {
@@ -13,7 +14,9 @@ public class Monster {
     int damage;
     int defense;
     int dodge;
-
+    int xPosition;
+    int yPosition;
+    int lane;
     
     
 
@@ -24,21 +27,40 @@ public class Monster {
         this.setDamage(damage);
         this.defense = defense;
         this.dodge = dodge;
-
+        int xPosition = 0;
+        int yPosition = 0;
+        this.lane = 0;
     }
 
-    public static boolean monsterTurn(){
+    public int getxPosition() {
+		return xPosition;
+	}
+
+	public void setxPosition(int xPosition) {
+		this.xPosition = xPosition;
+	}
+
+	public int getyPosition() {
+		return yPosition;
+	}
+
+	public void setyPosition(int yPosition) {
+		this.yPosition = yPosition;
+	}
+
+	public int getLane() {
+		return lane;
+	}
+
+	public void setLane(int lane) {
+		this.lane = lane;
+	}
+
+	public static boolean monsterTurn(int heroSelect, int monsterSelect){
         Random random = new Random();
+        Monster monster = FactoryMonster.spawnMonsters.get(monsterSelect);
 
-        for(int i=0; i<FactoryMonster.spawnMonsters.size(); i++){
-            int randomSelector = random.nextInt(Player.heroes.size());
-
-            if(Player.heroes.get(randomSelector).getHP() <= 0) {
-                i--;
-                continue;
-            }
-
-            Hero hero = Player.heroes.get(randomSelector);
+            Hero hero = Player.heroes.get(heroSelect);
             // Check Hero agility to dodge
             double dodgeChance = hero.getAgility() * 0.002;
             int randomDodge = random.nextInt(hero.getAgility());
@@ -47,19 +69,17 @@ public class Monster {
             if ( randomDodge > dodgeChance ){
                 // todo armor
                 if(hero.equipArmor != null)
-                    attackDamage = (FactoryMonster.spawnMonsters.get(i).getDamage()*0.02*FactoryMonster.spawnMonsters.get(i).level - hero.equipArmor.getDamage()*0.05*hero.getLevel());
+                    attackDamage = (monster.damage*0.02*monster.level - hero.equipArmor.getDamage()*0.05*hero.getLevel());
                 else
-                    attackDamage = (FactoryMonster.spawnMonsters.get(i).getDamage()*0.02*FactoryMonster.spawnMonsters.get(i).level);
+                    attackDamage = (monster.damage*0.02*monster.level);
 
-                hero.setHP((int) (hero.getHP() - (attackDamage)));
-                
-                System.out.println("\nMonster "+FactoryMonster.spawnMonsters.get(i).name+" attacks Hero "+hero.getName()
+                hero.setHP((int) (hero.getHP() - attackDamage));
+                System.out.println("\nMonster "+monster.name+" attacks Hero "+hero.getName()
                         +" for damage "+attackDamage);
             }else{
-                System.out.println("\nHero "+hero.getName()+" dodged Monster "+FactoryMonster.spawnMonsters.get(i).name+" attack");
+                System.out.println("\nHero "+hero.getName()+" dodged Monster "+monster.name+" attack");
             }
 
-        }
 
         return true;
     }
@@ -132,6 +152,19 @@ public class Monster {
             System.out.println("Select valid Monster number.");
             return -1;
         }
+    }
+	
+	public boolean moveNexus(){
+        // Reset old position
+        //RunGame.board.setBoard(this.xPosition, this.yPosition, '-');
+        RunGame.board.getCells().get(this.xPosition).get(this.yPosition).setSymbol("-");
+        // New position
+        if(xPosition>0)
+            xPosition--;
+        //RunGame.board.setBoard(this.xPosition, this.yPosition, 'M');
+        RunGame.board.getCells().get(this.xPosition).get(this.yPosition).setSymbol("M");
+
+        return true;
     }
 
 

@@ -11,6 +11,7 @@ import LevelUp.LevelUpBehaviour;
 import LevelUp.PaladinLevelUpBehaviour;
 import LevelUp.SorcererLevelUpBehaviour;
 import LevelUp.WarriorLevelUpBehaviour;
+import Game.RunGame;
 
 public class Hero {
 //    	Has the implementation and attributes of the heroes from parsing text files to creation and methods for hero's actions.
@@ -23,10 +24,36 @@ public class Hero {
     private String name;
     private int level;
     private int HP;
-    //position?
+    int xPosition;
+    int yPosition;
+    int lane;
     
 
-    private ArrayList<Weapons> weaponsInventory;
+    public int getxPosition() {
+		return xPosition;
+	}
+
+	public void setxPosition(int xPosition) {
+		this.xPosition = xPosition;
+	}
+
+	public int getyPosition() {
+		return yPosition;
+	}
+
+	public void setyPosition(int yPosition) {
+		this.yPosition = yPosition;
+	}
+
+	public int getLane() {
+		return lane;
+	}
+
+	public void setLane(int lane) {
+		this.lane = lane;
+	}
+
+	private ArrayList<Weapons> weaponsInventory;
     private ArrayList<Armory> armoryInventory;
     private ArrayList<Spells> spellsInventory;
     private ArrayList<Potions> potionsInventory;
@@ -51,6 +78,9 @@ public class Hero {
         this.setPotionsInventory(new ArrayList<Potions>());
         this.equipWeapon = null;
         this.equipArmor = null;
+        int xPosition = 0;
+        int yPosition = 0;
+        this.lane=0;
         if (category == "paladin") {
 			lu = new PaladinLevelUpBehaviour();
 		} else if (category == "warrior") {
@@ -172,10 +202,10 @@ public class Hero {
         return true;
     }
 
-    public boolean attack(){
+    public boolean attack(int monsterSelect){
         Random random = new Random();
         // Select which monster to attack
-        int monsterSelect = Monster.selectMonster();
+//        int monsterSelect = Monster.selectMonster();
         if (monsterSelect<0)
             return false;
 
@@ -196,17 +226,18 @@ public class Hero {
 
             monster.HP -= heroAttack;
 
-            System.out.println("\nHero "+getName()+" attacks Monster "+monster.name
+            System.out.println("\nHero "+name+" attacks Monster "+monster.name
                     +" for damage "+heroAttack);
 
             // Check if monster is finished
             if(monster.HP <= 0){
                 System.out.println("\nMonster "+monster.name+" is finished.");
-                FactoryMonster.spawnMonsters.remove(monster);
+                RunGame.board.setBoard(monster.xPosition, monster.yPosition, '-');
+//                Monster.spawnMonsters.remove(monster);  removing in battle class
             }
 
         }else{
-            System.out.println("\nMonster "+monster.name+" dodged Hero "+getName()+" attack");
+            System.out.println("\nMonster "+monster.name+" dodged Hero "+name+" attack");
         }
 
         return true;
@@ -221,15 +252,29 @@ public class Hero {
         return Potions.selectPotion(heroSelect);
     }
 
-    public boolean castSpell(int heroSelect){
+    public boolean castSpell(int heroSelect, int monsterSelect){
         Random random = new Random();
         // Select which monster to attack
-        int monsterSelect = Monster.selectMonster();
+//        int monsterSelect = Monster.selectMonster();
         if (monsterSelect<0)
             return false;
 
         return Spells.selectSpell(heroSelect, monsterSelect);
     }
+    
+    public boolean setPosition(int xPosition, int yPosition){
+        // Reset old position
+        //RunGame.board.setBoard(this.xPosition, this.yPosition, '-');
+        RunGame.board.getCells().get(xPosition).get(yPosition).setSymbol("-");
+        // New position
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        //RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
+        RunGame.board.getCells().get(xPosition).get(yPosition).setSymbol("H");
+        return true;
+    }
+    
+    
 
 	public String getName() {
 		return name;

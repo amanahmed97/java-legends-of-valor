@@ -8,8 +8,8 @@ public class CellBush extends Cell{
 
 	public CellBush(int i, int j) {
 		super(i, j);
-		this.setColor(ANSI_YELLOW_BACKGROUND);
-		this.setLetter("  ");
+		this.setColor(Colors.YELLOW_BACKGROUND_BRIGHT);
+		this.setSymbol("   ");
 		this.setCellEnter(true);
 		this.setCanEnterMarket(false);
 		super.cb = new BushCellBehaviour();

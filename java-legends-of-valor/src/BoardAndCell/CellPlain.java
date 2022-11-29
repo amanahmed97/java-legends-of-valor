@@ -6,8 +6,8 @@ public class CellPlain extends Cell{
 
 	public CellPlain(int i, int j) {
 		super(i, j);
-		this.setColor(ANSI_WHITE_BACKGROUND);
-		this.setLetter("   ");
+		this.setColor(Colors.GREEN_BACKGROUND);
+		this.setSymbol("   ");
 		this.setCellEnter(true);
 		this.setCanEnterMarket(false);
 	}

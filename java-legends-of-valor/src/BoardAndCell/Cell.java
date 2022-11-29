@@ -6,7 +6,7 @@ public abstract class Cell {
 
     private int row, column;
     private String color;
-    private String letter;
+    private String symbol;
     private boolean cellEnter = false;
     private boolean isTeamPresent = false;
     private boolean canEnterMarket = false;
@@ -51,12 +51,12 @@ public abstract class Cell {
     }
 
 
-    public String getLetter() {
-        return letter;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setLetter(String letter) {
-        this.letter = letter;
+    public void setSymbol(String letter) {
+        this.symbol = letter;
     }
 
     public boolean isTeamPresent() {

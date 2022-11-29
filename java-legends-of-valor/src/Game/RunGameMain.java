@@ -37,7 +37,7 @@ public class RunGameMain {
 
             switch (option) {
                 case 1:
-//                    RunGame.runGame();
+                    RunGame.runGame();
                     break;
                 case 2:
                     System.out.println("\n=======================================\n");

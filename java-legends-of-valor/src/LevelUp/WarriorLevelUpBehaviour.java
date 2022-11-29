@@ -1,29 +1,41 @@
 package LevelUp;
 
 import Character.Hero;
+import Character.Player;
 
 public class WarriorLevelUpBehaviour implements LevelUpBehaviour{
 
 	@Override
 	public void levelUp(Hero hero) {
 		//strength and agility
-		hero.setLevel(hero.getLevel() + 1);
+		hero.setExperience(hero.getExperience() + Player.heroes.size() * 2);
 
-		//TODO incorporate gold into faint behaviour
-		//hero.setGold();
+		//faint behaviour
+		if (hero.getHP()>0)
+			hero.setGold(hero.getLevel() * 100);
 
-		hero.setHP(hero.getLevel() * 100);
+		//level up only if condition is met
+		if(hero.getExperience() > hero.getLevel()*10){
+			hero.setLevel(hero.getLevel() + 1);
+			// increase hero stats
+			hero.setHP(hero.getLevel()*100);
+			hero.setMP((int) (hero.getMP() * 1.1));
 
-		hero.setMP((int) (hero.getMP() * 1.1));
+			hero.setHP(hero.getLevel() * 100);
 
-		int strength = (int) (hero.getStrength() + (0.1 * hero.getStrength()));
-		hero.setStrength(strength);
+			hero.setMP((int) (hero.getMP() * 1.1));
 
-		int dexterity = (int) (hero.getDexterity() + (0.05 * hero.getDexterity()));
-		hero.setDexterity(dexterity);
+			int strength = (int) (hero.getStrength() + (0.1 * hero.getStrength()));
+			hero.setStrength(strength);
 
-		int agility = (int) (hero.getAgility() + (0.1 * hero.getAgility()));
-		hero.setAgility(agility);
+			int dexterity = (int) (hero.getDexterity() + (0.05 * hero.getDexterity()));
+			hero.setDexterity(dexterity);
+
+			int agility = (int) (hero.getAgility() + (0.1 * hero.getAgility()));
+			hero.setAgility(agility);
+			
+			System.out.println("HERO "+hero.getName()+" Levels Up!!");
+		}
 
 	}
 

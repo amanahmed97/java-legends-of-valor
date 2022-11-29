@@ -10,7 +10,7 @@ public class CellKoulou extends Cell{
 	public CellKoulou(int i, int j) {
 		super(i, j);
 		this.setColor(ANSI_PURPLE_BACKGROUND);
-		this.setLetter("  ");
+		this.setSymbol("   ");
 		this.setCellEnter(true);
 		this.setCanEnterMarket(false);
 		cb = new KoulouCellBehaviour();
