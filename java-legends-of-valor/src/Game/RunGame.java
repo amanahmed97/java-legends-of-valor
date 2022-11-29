@@ -148,10 +148,10 @@ public class RunGame {
 		System.out.println("\nGame Turn " + gameTurn + "\n============");
 		board.printBoard();
 
-		System.out.println("\nHERO TURN : "+hero.getName()+"\n=========");
+		System.out.println("\nHERO TURN : "+hero.getDisplayName()+" "+hero.getName()+"\n=========");
 		System.out.println("Markers: H - Hero, X - Inaccessible space");
-		System.out.println(Colors.WHITE_BACKGROUND+ "     " +Colors.RESET+ " - Nexus, " + Colors.YELLOW_BACKGROUND_BRIGHT + "     " + Colors.RESET + " - Bush, " + Colors.BLUE_BACKGROUND + "     " + Colors.RESET + " - Cave, " + Colors.PURPLE_BACKGROUND+ "     " + Colors.RESET + " - Koulou, " + Colors.GREEN_BACKGROUND + "     " + Colors.RESET + " - Plain");
-		System.out.println("Movement: w - Move Up, s - Move Down, a - Move Left, d - Move Right");
+		System.out.println(Colors.RED_BACKGROUND+ "     " +Colors.RESET+ " - Nexus, " + Colors.YELLOW_BACKGROUND_BRIGHT + "     " + Colors.RESET + " - Bush, " + Colors.BLUE_BACKGROUND + "     " + Colors.RESET + " - Cave, " + Colors.PURPLE_BACKGROUND+ "     " + Colors.RESET + " - Koulou, " + Colors.GREEN_BACKGROUND + "     " + Colors.RESET + " - Plain");
+		System.out.println("Movement: w - Move Up, s - Move Down, a - Move Left, d - Move Right, r - Recall Nexus, t - Teleport");
 		System.out.println("Actions: i - info, m - Enter Market, q - Quit");
 		System.out.print("Enter: ");
 
@@ -210,11 +210,18 @@ public class RunGame {
 			} else
 				return false;
 			break;
+		case 'r':
+			// Recall. Set to start position in Nexus
+			newXPosition = 0;
+			hero.setPosition(newXPosition, hero.getyPosition(), hero);
+			break;
+		case 't':
+			hero.teleport();
+			break;
 		case 'i':
 			Info.infoDisplay();
 			break;
 		case 'm':
-			
 			Market.enterMarket();
 			break;
 		case 'q':

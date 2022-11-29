@@ -17,7 +17,7 @@ public class Monster {
     int xPosition;
     int yPosition;
     int lane;
-    
+    String displayName;
     
 
     public Monster(String name, int level, int damage, int defense, int dodge) {
@@ -30,6 +30,7 @@ public class Monster {
         int xPosition = 0;
         int yPosition = 0;
         this.lane = 0;
+        this.displayName = "M0";
     }
 
     public int getxPosition() {
@@ -55,6 +56,13 @@ public class Monster {
 	public void setLane(int lane) {
 		this.lane = lane;
 	}
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
 	public static boolean monsterTurn(int heroSelect, int monsterSelect){
         Random random = new Random();
@@ -162,7 +170,7 @@ public class Monster {
         if(xPosition>0)
             xPosition--;
         //RunGame.board.setBoard(this.xPosition, this.yPosition, 'M');
-        RunGame.board.getCells().get(this.xPosition).get(this.yPosition).setSymbol("M");
+        RunGame.board.getCells().get(this.xPosition).get(this.yPosition).setSymbol(displayName);
 
         return true;
     }

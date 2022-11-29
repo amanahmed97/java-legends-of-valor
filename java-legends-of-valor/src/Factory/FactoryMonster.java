@@ -124,8 +124,9 @@ public class FactoryMonster {
                 monster.setxPosition(Board.dimension-1);
                 monster.setyPosition(i * 3);
                 monster.setLane(spawnMonsters.size()-1);
+                monster.setDisplayName("M"+(spawnMonsters.size()));
                 //RunGame.board.setBoard(monster.getxPosition(), monster.getyPosition(), 'M');
-                RunGame.board.getCells().get(monster.getxPosition()).get(monster.getyPosition()).setSymbol("M");
+                RunGame.board.getCells().get(monster.getxPosition()).get(monster.getyPosition()).setSymbol(monster.getDisplayName());
             } else{
                 i--;
             }

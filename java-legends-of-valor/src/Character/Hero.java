@@ -27,6 +27,7 @@ public class Hero {
     int xPosition;
     int yPosition;
     int lane;
+    String displayName;
     
 
     public int getxPosition() {
@@ -81,6 +82,7 @@ public class Hero {
         int xPosition = 0;
         int yPosition = 0;
         this.lane=0;
+        this.displayName = "H0";
         if (category == "paladin") {
 			lu = new PaladinLevelUpBehaviour();
 		} else if (category == "warrior") {
@@ -138,6 +140,9 @@ public class Hero {
 	public void setExperience(int experience) {
 		this.experience = experience;
 	}
+    public String getDisplayName() {
+        return displayName;
+    }
 
 
     public boolean equipWeapon(int heroSelect){
@@ -272,9 +277,122 @@ public class Hero {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         //RunGame.board.setBoard(this.xPosition, this.yPosition, 'H');
-        RunGame.board.getCells().get(this.xPosition).get(this.yPosition).setSymbol("H");
+        RunGame.board.getCells().get(this.xPosition).get(this.yPosition).setSymbol(displayName);
         RunGame.board.getCells().get(this.xPosition).get(this.yPosition).heroEnter(hero);
         return true;
+    }
+
+    public boolean teleport(){
+        // Teleport the hero to different lane
+        System.out.println("Teleport Options:\nSelect lane to teleport to:");
+        for (int i=1;i<=3;i++){
+            // Skip current lane
+            if(i-1==this.lane)
+                continue;
+            System.out.println(i+". Lane "+i);
+        }
+        Scanner ip = new Scanner(System.in);
+        int newLane;
+        int teleportSelect;
+        try {
+            System.out.print("Enter lane : ");
+            newLane = ip.nextInt();
+            while(newLane<1 || newLane>3 || newLane==this.lane+1){
+                System.out.print("Enter valid lane : ");
+                newLane = ip.nextInt();
+            }
+        }catch(Exception e){
+            System.out.println("Invalid Lane selected.");
+            return teleport();
+        }
+        newLane--;
+        // Decide where to place the teleported hero. 3 cases.
+        // CASE 1
+        // If hero in lane, teleport to its adjacent cell or just above cell
+        int tHeroX=-1;
+        int tHeroY=-1;
+        int newX=-1;
+        int newY=-1;
+        for (Hero tHero: Player.heroes){
+            if(tHero.lane == newLane){
+                tHeroX = tHero.xPosition;
+                tHeroY = tHero.yPosition;
+            }
+        }
+        if(tHeroX!=-1){
+            // Set the position for teleport
+            System.out.println("Select area to teleport to:\n1. Adjacent to Lane Hero\n2. Above Lane Hero");
+            try {
+                System.out.print("Enter selection : ");
+                teleportSelect = ip.nextInt();
+                while(!(teleportSelect==1 || teleportSelect==2)){
+                    System.out.print("Enter valid selection : ");
+                    teleportSelect = ip.nextInt();
+                }
+            }catch(Exception e){
+                System.out.println("Invalid selection.");
+                return teleport();
+            }
+
+            switch(teleportSelect){
+                case 1:
+                    // Adjacent to Lane Hero
+                    if(newLane*3 == tHeroY)
+                        newY = tHeroY+1;
+                    else if( (newLane*3+1) == tHeroY )
+                        newY = tHeroY-1;
+                    newX= tHeroX;
+                    break;
+                case 2:
+                    // Above Lane Hero
+                    if(tHeroX==0){
+                        System.out.println("Lane hero still in Nexus. Can't teleport above.");
+                        return false;
+                    }
+                    newY= tHeroY;
+                    newX= tHeroX-1;
+                    break;
+                default:
+                    return false;
+            }
+
+            // Set the teleported coordinates
+            setLane(newLane);
+            setPosition(newX, newY, this);
+            return true;
+        }
+        // CASE 2
+        // Teleport above monster
+        int tMonsterX=-1;
+        int tMonsterY=-1;
+        for (Monster monster: FactoryMonster.spawnMonsters){
+            if(monster.lane == newLane){
+                tMonsterX = monster.xPosition;
+                tMonsterY = monster.yPosition;
+            }
+        }
+        if(tMonsterX!=-1){
+            // Set the position for teleport
+            // Above Lane Monster
+            if(tMonsterX==0){
+                System.out.println("Lane monster still in Nexus. Can't teleport above.");
+                return false;
+            }
+            newY= tMonsterY;
+            newX= tMonsterX-1;
+            setLane(newLane);
+            setPosition(newX,newY,this);
+            return true;
+        }
+        // CASE 3
+        // If no hero or monster in lane, teleport to same row as current
+        newY = newLane*3;
+        newX= tMonsterX;
+        setLane(newLane);
+        setPosition(newX, newY, this);
+        return true;
+
+//        return false;
     }
     
     

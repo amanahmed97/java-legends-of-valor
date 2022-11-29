@@ -94,8 +94,9 @@ public class Player {
           Hero hero = heroes.get(i);
           hero.xPosition = 0;
           hero.yPosition = i * 3;
+          hero.displayName = "H"+(i+1);
           //RunGame.board.setBoard(hero.xPosition, hero.yPosition, 'H');
-          RunGame.board.getCells().get(hero.xPosition).get(hero.yPosition).setSymbol("H");
+          RunGame.board.getCells().get(hero.xPosition).get(hero.yPosition).setSymbol(hero.displayName);
           hero.lane = i;
       }
 
@@ -136,34 +137,6 @@ public class Player {
         for(Hero hero: Player.heroes){
             // add experience points for number of monsters defeated, which is same as number of heroes
         	hero.levelUp(hero);
-//            hero.setExperience(hero.getExperience() + Player.heroes.size() * 2);
-//            // for heroes who did not faint, gold gain
-//            if (hero.getHP()>0)
-//                hero.setGold(hero.getLevel() * 100);
-//
-//            // check experience points
-//            if(hero.getExperience() > hero.getLevel()*10){
-//                hero.setLevel(hero.getLevel() + 1);
-//                // increase hero stats
-//                hero.setHP(hero.getLevel()*100);
-//                hero.setMP((int) (hero.getMP() * 1.1));
-//
-//                // level up favoured skills
-//                if(hero.getName().contains("Warrior")){
-//                    hero.setStrength((int) (hero.getStrength()*1.1));
-//                    hero.setAgility((int) (hero.getAgility()*1.1));
-//                    hero.setDexterity((int) (hero.getDexterity()*1.05));
-//                } else if (hero.getName().contains("Paladin")) {
-//                    hero.setStrength((int) (hero.getStrength()*1.1));
-//                    hero.setAgility((int) (hero.getAgility()*1.05));
-//                    hero.setDexterity((int) (hero.getDexterity()*1.1));
-//                } else if (hero.getName().contains("Sorcerer")) {
-//                    hero.setStrength((int) (hero.getStrength()*1.05));
-//                    hero.setAgility((int) (hero.getAgility()*1.1));
-//                    hero.setDexterity((int) (hero.getDexterity()*1.1));
-//                }
-
-//                System.out.println("HERO "+hero.getName()+" Levels Up!!");
             
         }
 

@@ -42,7 +42,7 @@ public class Board {
             for (int k = 0; k < dimension; k++) {
 //                if (dimension * dimension > 9) System.out.print("+----");
 //                else
-                System.out.print("+-----");
+                System.out.print("+------");
             }
             System.out.print("+\n");
 
@@ -54,13 +54,20 @@ public class Board {
 //                }else
                 if (cells.get(i-1).get(j-1).getSymbol().equals("-"))
                     System.out.print("|"+cells.get(i-1).get(j-1).getColor()+"   "+Colors.RESET);
+                else if (cells.get(i-1).get(j-1).getSymbol().equals("X"))
+                    System.out.print("|"+cells.get(i-1).get(j-1).getColor()+ "  X" + cells.get(i-1).get(j-1).getSymbol()+Colors.RESET);
                 else
-                    System.out.print("|"+cells.get(i-1).get(j-1).getColor()+ "  " + Colors.WHITE + cells.get(i-1).get(j-1).getSymbol()+Colors.RESET);
+                    System.out.print("|"+cells.get(i-1).get(j-1).getColor()+ "  " + cells.get(i-1).get(j-1).getSymbol()+Colors.RESET);
 
 //                if (RunGame.player.xPosition==i && RunGame.player.yPosition==j && BoardMap[i][j].symbol=='M')
 //                    System.out.print(" ");
 //                else
-                System.out.print(cells.get(i-1).get(j-1).getColor()+"  "+Colors.RESET);
+                if (cells.get(i-1).get(j-1).getSymbol().equals("-"))
+                    System.out.print(cells.get(i-1).get(j-1).getColor()+"   "+Colors.RESET);
+                else if (cells.get(i-1).get(j-1).getSymbol().equals("X"))
+                    System.out.print(cells.get(i-1).get(j-1).getColor()+"  "+Colors.RESET);
+                else
+                    System.out.print(cells.get(i-1).get(j-1).getColor()+"  "+Colors.RESET);
             }
             System.out.print("|\n");
         }
@@ -68,7 +75,7 @@ public class Board {
         for (int i = 1; i <= dimension; i++) {
 //            if (dimension * dimension > 9) System.out.print("+----");
 //            else
-            System.out.print("+-----");
+            System.out.print("+------");
         }
         System.out.print("+\n");
     }
