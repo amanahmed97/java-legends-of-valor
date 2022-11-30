@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import Character.Player;
+import Character.Hero;
 import Item.Armory;
 import Item.Potions;
 import Item.Spells;
@@ -11,12 +12,11 @@ import Item.Weapons;
 
 public class Market {
 //    Contains the implementation of the marketplace where heroes can buy and sell inventory.
-    public static void enterMarket(){
-        // check if player in on Market tile
-//        if(RunGame.board.getBoardSymbol(RunGame.player.xPosition,RunGame.player.yPosition) != 'M'){
-//            System.out.println("Cannot access market outside Market tile on board.");
-//            return;
-//        }
+    public static void enterMarket(Hero hero){
+        if (hero.getxPosition() != 0){
+            System.out.println("Hero "+hero.getDisplayName()+" "+hero.getName()+" not in Nexus. Can't access market.");
+            return;
+        }
 
         System.out.println("\n=====================\n"+"WELCOME TO THE MARKET\n"+"=====================\n");
 
@@ -37,10 +37,10 @@ public class Market {
 
             switch (mOption) {
                 case 1:
-                    buyMarket();
+                    buyMarket(hero);
                     break;
                 case 2:
-                    sellMarket();
+                    sellMarket(hero);
                     break;
                 case 3:
                     return;
@@ -52,7 +52,7 @@ public class Market {
 
     }
 
-    public static void buyMarket(){
+    public static void buyMarket(Hero hero){
         System.out.println("BUY MENU\n========");
 
         int buyOption = 0;
@@ -69,20 +69,21 @@ public class Market {
             buyOption = 0;
         }
 
-        int hero = Player.selectHero();
+//        int heroSelect = Player.selectHero();
+        int heroSelect = Player.heroes.indexOf(hero);
 
         switch (buyOption){
             case 1:
-                Weapons.buyWeapons(hero);
+                Weapons.buyWeapons(heroSelect);
                 break;
             case 2:
-                Armory.buyArmory(hero);
+                Armory.buyArmory(heroSelect);
                 break;
             case 3:
-                Potions.buyPotions(hero);
+                Potions.buyPotions(heroSelect);
                 break;
             case 4:
-                Spells.buySpells(hero);
+                Spells.buySpells(heroSelect);
                 break;
             case 5:
                 return;
@@ -93,7 +94,7 @@ public class Market {
 
     }
 
-    public static void sellMarket(){
+    public static void sellMarket(Hero hero){
         System.out.println("\nSELL MENU\n========");
 
         int buyOption = 0;
@@ -110,20 +111,21 @@ public class Market {
             buyOption = 0;
         }
 
-        int hero = Player.selectHero();
+//        int hero = Player.selectHero();
+        int heroSelect = Player.heroes.indexOf(hero);
 
         switch (buyOption){
             case 1:
-                Weapons.sellWeapons(hero);
+                Weapons.sellWeapons(heroSelect);
                 break;
             case 2:
-                Armory.sellArmory(hero);
+                Armory.sellArmory(heroSelect);
                 break;
             case 3:
-                Potions.sellPotions(hero);
+                Potions.sellPotions(heroSelect);
                 break;
             case 4:
-                Spells.sellSpells(hero);
+                Spells.sellSpells(heroSelect);
                 break;
             case 5:
                 return;

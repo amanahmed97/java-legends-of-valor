@@ -222,7 +222,7 @@ public class RunGame {
 			Info.infoDisplay();
 			break;
 		case 'm':
-			Market.enterMarket();
+			Market.enterMarket(hero);
 			break;
 		case 'q':
 			System.out.println("\n=======================================\n");
