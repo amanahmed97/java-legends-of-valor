@@ -97,7 +97,8 @@ public class RunGame {
 		// Check if monster is in range for attack
 		for(int i=0;i<FactoryMonster.spawnMonsters.size();i++){
 			Monster monster = FactoryMonster.spawnMonsters.get(i);
-			if( (monster.getxPosition()==hero.getxPosition()-1 || monster.getxPosition()==hero.getxPosition()+1) && (monster.getLane() == hero.getLane()) ){
+			if( (monster.getxPosition()==hero.getxPosition()-1 || monster.getxPosition()==hero.getxPosition()+1 || monster.getxPosition()==hero.getxPosition())
+					&& (monster.getLane() == hero.getLane()) ){
 				monsterSelect=i;
 			}
 		}
@@ -144,6 +145,9 @@ public class RunGame {
 		
 		Hero hero = Player.heroes.get(heroSelect);
 
+		// Check if in range to start battle
+		generateBattle(heroSelect);
+
 		System.out.println("\n=================================================\n");
 		System.out.println("\nGame Turn " + gameTurn + "\n============");
 		board.printBoard();
@@ -179,34 +183,34 @@ public class RunGame {
 		int newYPosition;
 		switch (gameInput) {
 		case 'w':
+//			generateBattle(heroSelect);
 			newXPosition = hero.getxPosition() - 1;
 			if (Board.validPosition(newXPosition, hero.getyPosition())) {
 				hero.setPosition(newXPosition, hero.getyPosition(), hero);
-				generateBattle(heroSelect);
 			} else
 				return false;
 			break;
 		case 'a':
+//			generateBattle(heroSelect);
 			newYPosition = hero.getyPosition() - 1;
 			if (Board.validPosition(hero.getxPosition(), newYPosition)) {
 				hero.setPosition(hero.getxPosition(), newYPosition, hero);
-				generateBattle(heroSelect);
 			} else 
 				return false;
 			break;
 		case 's':
+//			generateBattle(heroSelect);
 			newXPosition = hero.getxPosition() + 1;
 			if (Board.validPosition(newXPosition, hero.getyPosition())) {
 				hero.setPosition(newXPosition, hero.getyPosition(), hero);
-				generateBattle(heroSelect);
 			} else
 				return false;
 			break;
 		case 'd':
+//			generateBattle(heroSelect);
 			newYPosition = hero.getyPosition() + 1;
 			if (Board.validPosition(hero.getxPosition(), newYPosition)) {
 				hero.setPosition(hero.getxPosition(), newYPosition, hero);
-				generateBattle(heroSelect);
 			} else
 				return false;
 			break;
@@ -249,7 +253,7 @@ public class RunGame {
 			if(hero.getHP()>0){
 				if(hero.getxPosition() == Board.dimension-1){
 					System.out.println("NEXUS REACHED!!!\nHEROES WIN!!!!!"+"\nGAME WON!!!"+"\nThank you! See you again!");
-					System.exit(0);
+//					System.exit(0);
 					return true;
 				}
 			}
@@ -262,7 +266,7 @@ public class RunGame {
 
 			if(monster.getxPosition() == 0){
 				System.out.println("NEXUS REACHED!!!\nMONSTERS WIN!!"+"\nGAME OVER!!!"+"\nThank you! See you again!");
-				System.exit(0);
+//				System.exit(0);
 				return true;
 			}
 

@@ -44,7 +44,7 @@ public static void enterBattle(int heroSelect, int monsterSelect){
         Player.levelUpHeroes();
     }else{
         System.out.println("\nHERO DEFEATED!!!\nMonster defeated you!");
-        System.exit(0);
+//        System.exit(0);
     }
 }
 
@@ -111,7 +111,7 @@ public static boolean heroCondition(int heroSelect){
         return true;
     else{
         //RunGame.board.setBoard(hero.getxPosition(), hero.getyPosition(), '-');
-        RunGame.board.getCells().get(hero.getxPosition()).get(hero.getxPosition()).setSymbol("M");
+        RunGame.board.getCells().get(hero.getxPosition()).get(hero.getxPosition()).setSymbol("-");
     }
 
     return false;

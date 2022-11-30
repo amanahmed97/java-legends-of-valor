@@ -56,10 +56,11 @@ public class RunGameMain extends Game{
         System.out.println("\nGAME RULES\n==========");
         System.out.println("1. World of play is n x n board, with WASD keys to move");
         System.out.println("2. You play as H1, H2, H3 - Heroes.");
-        System.out.println("3. Enter battles with monsters and defeat them to level up");
-        System.out.println("4. Buy and Sell inventory at the M - market.");
-        System.out.println("5. You can buy weapons, armors, spells and potions");
-        System.out.println("6. Cannot enter X - Inaccessible spaces.");
+        System.out.println("3. Enter battles with monsters and defeat them to level up.");
+        System.out.println("4. Breach the opponents Nexus to win the game.");
+        System.out.println("5. Buy and Sell inventory at the M - market.");
+        System.out.println("6. You can buy weapons, armors, spells and potions");
+        System.out.println("7. Cannot enter X - Inaccessible spaces.");
     }
 
 }

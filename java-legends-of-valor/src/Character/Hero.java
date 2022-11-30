@@ -237,7 +237,8 @@ public class Hero {
             // Check if monster is finished
             if(monster.HP <= 0){
                 System.out.println("\nMonster "+monster.name+" is finished.");
-                RunGame.board.setBoard(monster.xPosition, monster.yPosition, '-');
+//                RunGame.board.setBoard(monster.xPosition, monster.yPosition, '-');
+                RunGame.board.getCells().get(monster.xPosition).get(monster.yPosition).setSymbol("-");
 //                Monster.spawnMonsters.remove(monster);  removing in battle class
             }
 
