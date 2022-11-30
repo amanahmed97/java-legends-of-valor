@@ -27,8 +27,15 @@ public class Weapons {
         int ctr = 0;
 //        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         // Parse the file
-        File file = new File("./src/gamelib/Weaponry.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        File file;
+        BufferedReader br;
+        try{
+            file = new File("./Item/Weaponry.txt");
+            br = new BufferedReader(new FileReader(file));
+        }catch (Exception e){
+            file = new File("./src/gamelib/Weaponry.txt");
+            br = new BufferedReader(new FileReader(file));
+        }
 
         while ((line = br.readLine()) != null) {
             String sp = "\\s+";

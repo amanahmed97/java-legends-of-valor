@@ -30,8 +30,15 @@ public class FactoryMonster {
         int ctr = 0;
 //        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         // Parse the file
-        File file = new File("./src/gamelib/Dragons.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        File file;
+        BufferedReader br;
+        try{
+            file = new File("./Factory/Dragons.txt");
+            br = new BufferedReader(new FileReader(file));
+        }catch (Exception e){
+            file = new File("./src/gamelib/Dragons.txt");
+            br = new BufferedReader(new FileReader(file));
+        }
 
         while ((line = br.readLine()) != null) {
             String sp = "\\s+";
@@ -56,8 +63,15 @@ public class FactoryMonster {
         int ctr = 0;
 
         // Parse the file
-        File file = new File("./src/gamelib/Exoskeletons.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        File file;
+        BufferedReader br;
+        try{
+            file = new File("./Factory/Exoskeletons.txt");
+            br = new BufferedReader(new FileReader(file));
+        }catch (Exception e){
+            file = new File("./src/gamelib/Exoskeletons.txt");
+            br = new BufferedReader(new FileReader(file));
+        }
 
         while ((line = br.readLine()) != null) {
             String sp = "\\s+";
@@ -80,8 +94,15 @@ public class FactoryMonster {
         int ctr = 0;
 
         // Parse the file
-        File file = new File("./src/gamelib/Spirits.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        File file;
+        BufferedReader br;
+        try{
+            file = new File("./Factory/Spirits.txt");
+            br = new BufferedReader(new FileReader(file));
+        }catch (Exception e){
+            file = new File("./src/gamelib/Spirits.txt");
+            br = new BufferedReader(new FileReader(file));
+        }
 
         while ((line = br.readLine()) != null) {
             String sp = "\\s+";

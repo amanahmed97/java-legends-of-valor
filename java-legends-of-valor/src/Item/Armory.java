@@ -27,8 +27,15 @@ public class Armory {
         int ctr = 0;
 //        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         // Parse the file
-        File file = new File("./src/gamelib/Armory.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        File file;
+        BufferedReader br;
+        try{
+            file = new File("./Item/Armory.txt");
+            br = new BufferedReader(new FileReader(file));
+        }catch (Exception e){
+            file = new File("./src/gamelib/Armory.txt");
+            br = new BufferedReader(new FileReader(file));
+        }
 
         while ((line = br.readLine()) != null) {
             String sp = "\\s+";

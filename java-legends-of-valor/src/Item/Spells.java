@@ -35,8 +35,15 @@ public class Spells {
         String line;
         int ctr = 0;
         // Parse the file
-        File file = new File("./src/gamelib/FireSpells.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        File file;
+        BufferedReader br;
+        try{
+            file = new File("./Item/FireSpells.txt");
+            br = new BufferedReader(new FileReader(file));
+        }catch (Exception e){
+            file = new File("./src/gamelib/FireSpells.txt");
+            br = new BufferedReader(new FileReader(file));
+        }
 
         while ((line = br.readLine()) != null) {
             String sp = "\\s+";
@@ -58,8 +65,15 @@ public class Spells {
         String line;
         int ctr = 0;
         // Parse the file
-        File file = new File("./src/gamelib/IceSpells.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        File file;
+        BufferedReader br;
+        try{
+            file = new File("./Item/IceSpells.txt");
+            br = new BufferedReader(new FileReader(file));
+        }catch (Exception e){
+            file = new File("./src/gamelib/IceSpells.txt");
+            br = new BufferedReader(new FileReader(file));
+        }
 
         while ((line = br.readLine()) != null) {
             String sp = "\\s+";
@@ -81,8 +95,15 @@ public class Spells {
         String line;
         int ctr = 0;
         // Parse the file
-        File file = new File("./src/gamelib/LightningSpells.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        File file;
+        BufferedReader br;
+        try{
+            file = new File("./Item/LightningSpells.txt");
+            br = new BufferedReader(new FileReader(file));
+        }catch (Exception e){
+            file = new File("./src/gamelib/LightningSpells.txt");
+            br = new BufferedReader(new FileReader(file));
+        }
 
         while ((line = br.readLine()) != null) {
             String sp = "\\s+";

@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 import BoardAndCell.Board;
 
-public class RunGameMain {
+public class RunGameMain extends Game{
 // Has the initial Game Menu with method to run menu options
     public static void runGameMenu() throws IOException {
 
-        //Initialize the objects of the game
+        // Initialize the objects of the game
         Scanner ip = new Scanner(System.in);
         int option = 0;
 

@@ -1,9 +1,6 @@
 package Factory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 import Character.Hero;
@@ -26,8 +23,15 @@ public class FactoryHero {
         int ctr = 0;
 //        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         // Parse the file
-        File file = new File("./src/gamelib/Warriors.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        File file;
+        BufferedReader br;
+        try{
+            file = new File("./Factory/Warriors.txt");
+            br = new BufferedReader(new FileReader(file));
+        }catch(Exception e){
+            file = new File("./src/gamelib/Warriors.txt");
+            br = new BufferedReader(new FileReader(file));
+        }
 
         while ((line = br.readLine()) != null) {
             String sp = "\\s+";
@@ -52,8 +56,15 @@ public class FactoryHero {
         int ctr = 0;
 
         // Parse the file
-        File file = new File("./src/gamelib/Paladins.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        File file;
+        BufferedReader br;
+        try{
+            file = new File("./Factory/Paladins.txt");
+            br = new BufferedReader(new FileReader(file));
+        }catch(Exception e){
+            file = new File("./src/gamelib/Paladins.txt");
+            br = new BufferedReader(new FileReader(file));
+        }
 
         while ((line = br.readLine()) != null) {
             String sp = "\\s+";
@@ -76,8 +87,15 @@ public class FactoryHero {
         int ctr = 0;
 
         // Parse the file
-        File file = new File("./src/gamelib/Sorcerers.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        File file;
+        BufferedReader br;
+        try{
+            file = new File("./Factory/Sorcerers.txt");
+            br = new BufferedReader(new FileReader(file));
+        }catch(Exception e){
+            file = new File("./src/gamelib/Sorcerers.txt");
+            br = new BufferedReader(new FileReader(file));
+        }
 
         while ((line = br.readLine()) != null) {
             String sp = "\\s+";
